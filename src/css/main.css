@@ -2,3 +2,21 @@ body {
 	overflow: hidden;
 	margin: 0;
 }
+
+@media (prefers-color-scheme: dark) {
+	.background-normal   { background-color: #222222; }
+	.foreground-normal   { color:            #bbbbbb; }
+	.background-selected { background-color: #005577; }
+	.foreground-selected { color:            #eeeeee; }
+	.border-normal       { border-color:     #444444; }
+	.border-selected     { border-color:     #005577; }
+}
+
+@media (prefers-color-scheme: light) {
+	.background-normal   { background-color: #bbbbbb; }
+	.foreground-normal   { color:            #222222; }
+	.background-selected { background-color: #eeeeee; }
+	.foreground-selected { color:            #005577; }
+	.border-normal       { border-color:     #444444; }
+	.border-selected     { border-color:     #005577; }
+}
