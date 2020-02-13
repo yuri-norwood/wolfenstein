@@ -1,3 +1,11 @@
+$(document).ready(function () {
+	// wire up color scheme
+	$("body, #outer")
+		.addClass("background-normal")
+		.addClass("foreground-normal")
+		.addClass("border-normal");
+})
+
 $(window).on("load", function () {
 	var makeFullScreen = function () {
 		$("#outter")
@@ -8,10 +16,4 @@ $(window).on("load", function () {
 	// make the outer wrapper fullscreen and responsive
 	makeFullScreen();
 	$(window).on("resize", makeFullScreen);
-	
-	// wire up color scheme
-	$("body, #outer")
-		.addClass("background-normal")
-		.addClass("foreground-normal")
-		.addClass("border-normal");
 });
