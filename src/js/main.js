@@ -5,6 +5,13 @@ $(window).on("load", function () {
 			.height($(window).height());
 	};
 	
+	// make the outer wrapper fullscreen and responsive
 	makeFullScreen();
 	$(window).on("resize", makeFullScreen);
+	
+	// wire up color scheme
+	$("body, #outer")
+		.addClass("background-normal")
+		.addClass("foreground-normal")
+		.addClass("border-normal");
 });
