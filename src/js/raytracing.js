@@ -252,6 +252,10 @@ var Raytracing = {
 		};
 		
 		this.toString = function (format) {
+			if (typeof format !== "string" || !this.isPixelOn()) {
+				return "[object Raytracing.Pixel]";
+			}
+
 			switch (format) {
 				case "hex":
 					return this.toString("#RGB");
