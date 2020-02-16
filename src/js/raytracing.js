@@ -244,35 +244,29 @@ var Raytracing = {
 		};
 
 		this.toHex = function () {
-			return this.toString("hex");
+			return this.toString("#RGB");
 		}
 
 		this.toCSS = function () {
-			return this.toString("css");
+			return "rgb(" + this.toString("r, g, b") + ")";
 		};
 		
 		this.toString = function (format) {
-			if (typeof format !== "string" || !this.isPixelOn()) {
-				return "[object Raytracing.Pixel]";
-			}
+			// format substitutes "r", "g", and "b" to decimal values of the
+			// corresponding color value of the pixel, and substitutes "R", "G",
+			// and "B" for the hexadecimal values of the corresponding color
+			// values. The toHex() and toCSS() methods are wrappers for 
 
-			switch (format) {
-				case "hex":
-					return this.toString("#RGB");
-				case "css":
-					return "rgb(" + this.toString("r, g, b") + ")";
-				default: // e.g. "[r,g,b]" => "[255,255,255]"
-					return this.isPixelOn()
-						? format.replace(/r/, this.getRed())
-						        .replace(/g/, this.getGreen())
-						        .replace(/b/, this.getBlue())
-						        .replace(/R/, ("0" + this.getRed().toString(16)).substr(-2))
-						        .replace(/G/, ("0" + this.getGreen().toString(16)).substr(-2))
-						        .replace(/B/, ("0" + this.getBlue().toString(16)).substr(-2))
-						: "" ;
-			}
+			return typeof format === "string" && format.length && this.isPixelOn()
+				? format.replace(/r/, this.getRed())
+				        .replace(/g/, this.getGreen())
+				        .replace(/b/, this.getBlue())
+				        .replace(/R/, ("0" + this.getRed().toString(16)).substr(-2))
+				        .replace(/G/, ("0" + this.getGreen().toString(16)).substr(-2))
+				        .replace(/B/, ("0" + this.getBlue().toString(16)).substr(-2))
+				: "[object Raytracing.Pixel]" ;
 		};
-	},
+	}
 };
 
 // static methods and values
