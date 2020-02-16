@@ -1,5 +1,19 @@
 // raytracing namespace for "3D" (actually 2 and a half D) abstraction
 var Raytracing = {
+	Math : { // namespace for math extension static methods
+		// unit conversions
+		radiansToDegrees : function (theta) { return theta * 180/Math.PI; },
+		degreesToRadians : function (theta) { return theta * Math.PI/180; },
+
+		// incline ratios
+		radiansToIncline : function (theta) {
+			return Math.tan(theta);
+		},
+		degreesToIncline : function (theta) {
+			return Math.tan(Raytracing.Math.degreesToRadians(theta));
+		}
+	},
+
 	Exception : function (message) {
 		return Object.create(Error.prototype, { message : { value : message }});
 	},
