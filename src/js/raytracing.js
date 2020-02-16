@@ -1,28 +1,41 @@
 // raytracing namespace for "3D" (actually 2 and a half D) abstraction
 var Raytracing = {
+	Exception : function (message) {
+		return Object.create(Error.prototype, { message : { value : message }});
+	},
+
 	Space : function (w, l, h) { // constructor for a new 3D space
-		var defaults = { w : 100, l : 100, h : 10 }; // default parameters
+		// validation
+		if (isNaN(w)) {
+			throw new Raytracing.Exception("Invalid constructor parameter: w passed as " + w);
+		}
+		if (isNaN(l)) {
+			throw new Raytracing.Exception("Invalid constructor parameter: l passed as " + l);
+		}
+		if (isNaN(h)) {
+			throw new Raytracing.Exception("Invalid constructor parameter: h passed as " + h);
+		}
 
 		// getters / setters
 		this.getWidth = function () {
 			return this._width;
 		};
 		this.setWidth = function (width) {
-			this._width = width || defaults.w;
+			this._width = width;
 		};
 
 		this.getLength = function () {
 			return this._length;
 		};
 		this.setLength = function (length) {
-			this._length = length || defaults.l;
+			this._length = length;
 		};
 
 		this.getHeight = function () {
 			return this._height;
 		};
 		this.setHeight = function (height) {
-			this._height = height || defaults.h;
+			this._height = height;
 		};
 
 		// fields
@@ -106,18 +119,17 @@ var Raytracing = {
 	
 	ViewPoint : function (space, x, y, r) { // constructor for a new view point
 		// validation
-		var invalidParamater = function (name, value) {
-			throw "Cannot initialize Raytracing.ViewPoint: invalid value '" + value + "' for parameter " + name;
-		};
-
-		if (!space) {
-			invalidParamater("space", space);
-		} else if (isNaN(x)) {
-			invalidParamater("x", x);
-		} else if (isNaN(y)) {
-			invalidParamater("y", y);
-		} else if (isNaN(r)) {
-			invalidParamater("r", r);
+		if (!space instanceof Raytracing.Space) {
+			throw new Raytracing.Exception("Invalid constructor parameter: space passed as " + space);
+		}
+		if (isNaN(x)) {
+			throw new Raytracing.Exception("Invalid constructor parameter: x passed as " + x);
+		}
+		if (isNaN(y)) {
+			throw new Raytracing.Exception("Invalid constructor parameter: y passed as " + y);
+		}
+		if (isNaN(r)) {
+			throw new Raytracing.Exception("Invalid constructor parameter: r passed as " + r);
 		}
 
 		// getters / setters
