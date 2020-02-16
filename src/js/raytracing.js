@@ -51,8 +51,9 @@ var Raytracing = {
 			// returns a w by h grid of pixels to draw
 			var screen = [];
 
-			// scan all currently visible pixels
-			var scanLines = this.viewPoint.scan();
+			// calculate the angle in degrees of each horizontal pixel
+			var anglePerPixel = Raytracing.ViewPoint.FieldOfView / w;
+			var startingAngle = this.viewPoint.getRotation() - Raytracing.ViewPoint.FieldOfView / 2;
 			
 			// perspectiveRatio dictates how small things in the distance are
 			var perspectiveRatio = 0.75;
@@ -60,11 +61,14 @@ var Raytracing = {
 			for (var x = 0; x < w; x++) {
 				screen.push([]); // add a pixel column to the screen
 
+				// scan all currently visible pixels
+				var scanLine = this.viewPoint.scan(startingAngle + (anglePerPixel * x));
+
 				// these are the pixels for the current angle
-				var pixels = scanLines[TODO].pixels;
+				var pixels = scanLine.pixels;
 				
 				// the distance from the view point these pixels
-				var distance = scanLines[TODO].distance;
+				var distance = scanLine.distance;
 
 				// calculate which pixels to keep
 				var pixelsToUse = [];
@@ -162,20 +166,13 @@ var Raytracing = {
 		this.setRotation(r); // rotation of point
 		
 		// methods
-		this.scan = function () { // returns a list of pixel columns 
-			// for each degree of the field of view, trace to the first stack of
-			// "on" pixels (i.e. all pixels are turned on) and return a list of
-			// pixel stacks and their distances from the current position.
-			var scan = [];
-
-			for (var i = 0; i < Raytracing.ViewPoint.FieldOfView; i++) {
-				var pixels = []; // TODO
-				var distance = 0; // TODO
-				
-				scan.push({pixels : pixels, distance : distance});
-			}
-
-			return scan;
+		this.scan = function (angle) { // returns pixels and distance at angle
+			return {
+				distance : 0, // TODO
+				pixels : [
+					// TODO
+				]
+			};
 		};
 
 		this.moveForwards  = function () { throw "TODO" };
