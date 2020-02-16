@@ -244,17 +244,29 @@ var Raytracing = {
 		};
 
 		this.toHex = function () {
-			return this.isPixelOn()
-				? "" // just an empty string
-				: "#" + this.getRed().toString(16) +
-			             this.getGreen().toString(16) +
-			             this.getBlue().toString(16);
+			return this.toString("hex");
 		}
 
 		this.toCSS = function () {
-			return this.isPixelOn()
-				? "" // just an empty string
-				: "rgb(" + this._r + ", " + this._g + ", " + this._b + ")";
+			return this.toString("css");
+		};
+		
+		this.toString = function (format) {
+			switch (format) {
+				case "hex":
+					return this.toString("#RGB");
+				case "css":
+					return "rgb(" + this.toString("r, g, b") + ")";
+				default: // e.g. "[r,g,b]" => "[255,255,255]"
+					return this.isPixelOn()
+						? format.replace(/r/, this.getRed())
+						        .replace(/g/, this.getGreen())
+						        .replace(/b/, this.getBlue())
+						        .replace(/R/, ("0" + this.getRed().toString(16)).substr(-2))
+						        .replace(/G/, ("0" + this.getGreen().toString(16)).substr(-2))
+						        .replace(/B/, ("0" + this.getBlue().toString(16)).substr(-2))
+						: "" ;
+			}
 		};
 	},
 };
