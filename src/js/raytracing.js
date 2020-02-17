@@ -10,26 +10,6 @@ var Raytracing = {}
 
 
 /*
-  ____             _                  _               __  __       _   _
- |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  |  \/  | __ _| |_| |__    _ __   __ _ _ __ ___   ___  ___ _ __   __ _  ___ ___
- | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | | |\/| |/ _` | __| '_ \  | '_ \ / _` | '_ ` _ \ / _ \/ __| '_ \ / _` |/ __/ _ \
- |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_| |  | | (_| | |_| | | | | | | | (_| | | | | | |  __/\__ \ |_) | (_| | (_|  __/
- |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_|  |_|\__,_|\__|_| |_| |_| |_|\__,_|_| |_| |_|\___||___/ .__/ \__,_|\___\___|
-             |___/                            |___/                                                           |_|
-*/
-Raytracing.Math = {}
-
-Raytracing.Math.radiansToDegrees = function (theta) { return theta * 180/Math.PI; }
-Raytracing.Math.degreesToRadians = function (theta) { return theta * Math.PI/180; }
-
-Raytracing.Math.degreesToIncline = function (theta) { return Math.tan(Raytracing.Math.degreesToRadians(theta)); }
-Raytracing.Math.radiansToIncline = function (theta) { return Math.tan(theta);                                   }
-
-Raytracing.Math.roundToMax = function (value, max) { return Math.round(value) > Number(max) ? Number(max) : Math.round(value); }
-Raytracing.Math.roundToMin = function (value, min) { return Math.round(value) < Number(min) ? Number(min) : Math.round(value); }
-
-
-/*
   ____             _                  _               ____                                             _                   _
  |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  / ___| _ __   __ _  ___ ___    ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __
  | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | \___ \| '_ \ / _` |/ __/ _ \  / __/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
@@ -410,3 +390,23 @@ Raytracing.Pixel.Average = function (xs) { // static method to average a list of
 		return new Raytracing.Pixel();
 	}
 }
+
+
+/*
+  ____             _                  _               __  __       _   _
+ |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  |  \/  | __ _| |_| |__    _ __   __ _ _ __ ___   ___  ___ _ __   __ _  ___ ___
+ | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | | |\/| |/ _` | __| '_ \  | '_ \ / _` | '_ ` _ \ / _ \/ __| '_ \ / _` |/ __/ _ \
+ |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_| |  | | (_| | |_| | | | | | | | (_| | | | | | |  __/\__ \ |_) | (_| | (_|  __/
+ |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_|  |_|\__,_|\__|_| |_| |_| |_|\__,_|_| |_| |_|\___||___/ .__/ \__,_|\___\___|
+             |___/                            |___/                                                           |_|
+*/
+Raytracing.Math = {}
+
+Raytracing.Math.radiansToDegrees = function (theta) { return theta * 180/Math.PI; }
+Raytracing.Math.degreesToRadians = function (theta) { return theta * Math.PI/180; }
+
+Raytracing.Math.degreesToIncline = function (theta) { return Math.tan(Raytracing.Math.degreesToRadians(theta)); }
+Raytracing.Math.radiansToIncline = function (theta) { return Math.tan(theta);                                   }
+
+Raytracing.Math.roundToMax = function (value, max) { return Math.round(value) > Number(max) ? Number(max) : Math.round(value); }
+Raytracing.Math.roundToMin = function (value, min) { return Math.round(value) < Number(min) ? Number(min) : Math.round(value); }
