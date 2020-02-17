@@ -122,7 +122,7 @@ Raytracing.Space.prototype.getPixelsAt = function (x, y) { return this._grid[x][
 
 Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           {
 	// validate the pixels
-	if (pixels.every(function (pixel) {
+	if (pixels.length <= 0 || !pixels.every(function (pixel) {
 			return pixel instanceof Raytracing.Pixel && pixel.isPixelOn();
 		})
 	) {
@@ -169,7 +169,7 @@ Raytracing.Space.prototype.render = function (width, height, blurDistance) {
 
 		// calculate which pixels to keep
 		var pixelsToUse = [];
-		if (distance > blurDistance) {
+		if (distance < blurDistance) {
 			var numberOfPixels = pixels.length * perspectiveRatio;
 			var compressionRatio = Math.floor(pixels.length / numberOfPixels);
 			for (var i = 0; i < numberOfPixels; i++) {
@@ -281,7 +281,7 @@ Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and d
 			var pixels = this._space.getPixelsAt(xDistance, yDistance);
 
 			// stop looking if all pixels at the (x,y) cords are on
-			stopScanning = pixels.every(function (pixel) {
+			stopScanning = pixels.length > 0 && pixels.every(function (pixel) {
 				return pixel.isPixelOn();
 			});
 
@@ -292,8 +292,8 @@ Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and d
 
 			// move to next y position
 			scanInNegativeYDirection
-				? yDistance++
-				: yDistance--;
+				? yDistance--
+				: yDistance++;
 		}
 
 		// break out early if scan line hit something
@@ -303,8 +303,8 @@ Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and d
 
 		// move to next x position
 		scanInNegativeXDirection
-			? xDistance++
-			: xDistance--;
+			? xDistance--
+			: xDistance++;
 	}
 
 	return {
@@ -399,9 +399,9 @@ Raytracing.Pixel.prototype.setBlue = function (blue) {
 }
 
 Raytracing.Pixel.prototype.isPixelOn = function () {
-	return !isNaN(this.red)   &&
-	       !isNaN(this.green) &&
-	       !isNaN(this.blue);
+	return (!isNaN(this.red))   &&
+	       (!isNaN(this.green)) &&
+	       (!isNaN(this.blue));
 }
 
 Raytracing.Pixel.prototype.toHex = function () { return          this.toString("#RGB");          }
