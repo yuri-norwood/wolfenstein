@@ -235,22 +235,22 @@ var Raytracing = {
 			var scanInNegativeYDirection = theta >=  0 && theta < 180;
 
 			// start counting the distance
-			var x = 0;
-			var y = 0;
+			var xDistance = 0;
+			var yDistance = 0;
 			var stopScanning = false;
 
 			while (!stopScanning &&
-			       0 <= x &&
-			       x <= this.space.getWidth()
+			       0 <= xDistance &&
+			       xDistance <= this.space.getWidth()
 			) {
 				while (!stopScanning &&
-				       0 <= y &&
-				       y <= this._space.getLength() &&
+				       0 <= yDistance &&
+				       yDistance <= this._space.getLength() &&
 				       scanInNegativeYDirection
-				       	? (x * slope) <= y
-				       	: y <= (x * slope)
+				       	? (xDistance * slope) <= yDistance
+				       	: yDistance <= (xDistance * slope)
 				) {
-					var pixels = this._space.getPixelsAt(x, y);
+					var pixels = this._space.getPixelsAt(xDistance, yDistance);
 
 					// stop looking if all pixels at the (x,y) cords are on
 					stopScanning = pixels.every(function (pixel) {
@@ -264,8 +264,8 @@ var Raytracing = {
 
 					// move to next y position
 					scanInNegativeYDirection
-						? y++
-						: y--;
+						? yDistance++
+						: yDistance--;
 				}
 
 				// break out early if scan line hit something
@@ -275,15 +275,15 @@ var Raytracing = {
 
 				// move to next x position
 				scanInNegativeXDirection
-					? x++
-					: x--;
+					? xDistance++
+					: xDistance--;
 			}
 
 			return {
 				distance : Math.round(
 					Math.sqrt( // good ol' Pythagoras
-						Math.pow(x, 2) +
-						Math.pow(y, 2)
+						Math.pow(xDistance, 2) +
+						Math.pow(yDistance, 2)
 					)
 				),
 				pixels : pixels
