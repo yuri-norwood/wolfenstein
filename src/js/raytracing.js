@@ -138,6 +138,11 @@ Raytracing.Space.prototype.setHeight = function (height) { this._height = height
 
 Raytracing.Space.prototype.getPixelsAt = function (x, y) { return this._grid[x][y]; }
 
+Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           { throw "TODO" }
+Raytracing.Space.prototype.drawLine      = function (x1, y1, x2, y2, pixels) { throw "TODO" }
+Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) { throw "TODO" }
+Raytracing.Space.prototype.drawCircle    = function (x, y, r, pixels)        { throw "TODO" }
+
 Raytracing.Space.prototype.render = function (width, height, blurDistance) {
 	// returns a w by h grid of pixels to draw
 	var screen = [];
