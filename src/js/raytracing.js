@@ -11,6 +11,18 @@ var Raytracing = {
 		},
 		degreesToIncline : function (theta) {
 			return Math.tan(Raytracing.Math.degreesToRadians(theta));
+		},
+
+		// max/min values
+		roundToMax : function (value, max) {
+			return Math.round(value) > Number(max)
+				? Number(max)
+				: Math.round(value);
+		},
+		roundToMin : function (value, min) {
+			return Math.round(value) < Number(min)
+				? Number(min)
+				: Math.round(value);
 		}
 	},
 
@@ -55,6 +67,10 @@ var Raytracing = {
 		};
 		this.setHeight = function (height) {
 			this._height = height;
+		};
+
+		this.getPixelsAt = function (x, y) {
+			return this._grid[x][y];
 		};
 
 		// fields
@@ -198,11 +214,79 @@ var Raytracing = {
 		
 		// methods
 		this.scan = function (angle) { // returns pixels and distance at angle
+			// calculate the ratio of x to y
+			var slope = Raytracing.Math.degreesToIncline(angle);
+
+			// ensure coordinates won't escape available space
+			slope = Raytracing.Math.roundToMax(
+				Raytracing.Math.roundToMin(
+					slope,
+					-Math.floor(this._space.getLength() / 2)),
+				Math.floor(this._space.getLength() / 2));
+
+			// get the angle in degrees and account for over/underflow
+			var oldAngle = this.getRotation(); // remember orientation
+			this.setRotation(angle); // setter contains modulo logic
+			var theta = this.getRotation(); // (angle in range 0 - 360)
+			this.setRotation(oldAngle); // return to previous orientation
+
+			// determine directionality
+			var scanInNegativeXDirection = theta >= 90 && theta < 270;
+			var scanInNegativeYDirection = theta >=  0 && theta < 180;
+
+			// start counting the distance
+			var x = 0;
+			var y = 0;
+			var stopScanning = false;
+
+			while (!stopScanning &&
+			       0 <= x &&
+			       x <= this.space.getWidth()
+			) {
+				while (!stopScanning &&
+				       0 <= y &&
+				       y <= this._space.getLength() &&
+				       scanInNegativeYDirection
+				       	? (x * slope) <= y
+				       	: y <= (x * slope)
+				) {
+					var pixels = this._space.getPixelsAt(x, y);
+
+					// stop looking if all pixels at the (x,y) cords are on
+					stopScanning = pixels.every(function (pixel) {
+						return pixel.isPixelOn();
+					});
+
+					// break out early if scan line hit something
+					if (stopScanning) {
+						break;
+					}
+
+					// move to next y position
+					scanInNegativeYDirection
+						? y++
+						: y--;
+				}
+
+				// break out early if scan line hit something
+				if (stopScanning) {
+					break;
+				}
+
+				// move to next x position
+				scanInNegativeXDirection
+					? x++
+					: x--;
+			}
+
 			return {
-				distance : 0, // TODO
-				pixels : [
-					// TODO
-				]
+				distance : Math.round(
+					Math.sqrt( // good ol' Pythagoras
+						Math.pow(x, 2) +
+						Math.pow(y, 2)
+					)
+				),
+				pixels : pixels
 			};
 		};
 
