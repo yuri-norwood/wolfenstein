@@ -1,135 +1,153 @@
-/* raytracing namespace for "3D" (actually 2 and a half D) abstraction */
-var Raytracing = {
-	Math : { // namespace for math extension static methods
-		// unit conversions
-		radiansToDegrees : function (theta) { return theta * 180/Math.PI; },
-		degreesToRadians : function (theta) { return theta * Math.PI/180; },
+/*
+ ____             _                  _
+|  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _   _ __   __ _ _ __ ___   ___  ___ _ __   __ _  ___ ___
+| |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | | '_ \ / _` | '_ ` _ \ / _ \/ __| '_ \ / _` |/ __/ _ \
+|  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| | | | | | (_| | | | | | |  __/\__ \ |_) | (_| | (_|  __/
+|_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, | |_| |_|\__,_|_| |_| |_|\___||___/ .__/ \__,_|\___\___|
+            |___/                            |___/                                  |_|
+*/
+var Raytracing = {}
 
-		// incline ratios
-		radiansToIncline : function (theta) {
-			return Math.tan(theta);
-		},
-		degreesToIncline : function (theta) {
-			return Math.tan(Raytracing.Math.degreesToRadians(theta));
-		},
+/*
+ ____             _                  _               __  __       _   _
+|  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  |  \/  | __ _| |_| |__    _ __   __ _ _ __ ___   ___  ___ _ __   __ _  ___ ___
+| |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | | |\/| |/ _` | __| '_ \  | '_ \ / _` | '_ ` _ \ / _ \/ __| '_ \ / _` |/ __/ _ \
+|  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_| |  | | (_| | |_| | | | | | | | (_| | | | | | |  __/\__ \ |_) | (_| | (_|  __/
+|_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_|  |_|\__,_|\__|_| |_| |_| |_|\__,_|_| |_| |_|\___||___/ .__/ \__,_|\___\___|
+            |___/                            |___/                                                           |_|
+*/
+Raytracing.Math = {}
 
-		// max/min values
-		roundToMax : function (value, max) {
-			return Math.round(value) > Number(max)
-				? Number(max)
-				: Math.round(value);
-		},
-		roundToMin : function (value, min) {
-			return Math.round(value) < Number(min)
-				? Number(min)
-				: Math.round(value);
-		}
-	},
+// Angle conversions
+Raytracing.Math.radiansToDegrees = function (theta) { return theta * 180/Math.PI; }
+Raytracing.Math.degreesToRadians = function (theta) { return theta * Math.PI/180; }
 
-	Exception : Error,
+// Incline calculations
+Raytracing.Math.degreesToIncline = function (theta) { return Math.tan(Raytracing.Math.degreesToRadians(theta)); }
+Raytracing.Math.radiansToIncline = function (theta) { return Math.tan(theta);                                   }
 
-	Space : function (w, l, h) { // constructor for a new 3D space
-		// validation
-		if (isNaN(w)) {
-			throw new Raytracing.Exception("Invalid constructor parameter: w passed as " + w);
-		}
-		if (isNaN(l)) {
-			throw new Raytracing.Exception("Invalid constructor parameter: l passed as " + l);
-		}
-		if (isNaN(h)) {
-			throw new Raytracing.Exception("Invalid constructor parameter: h passed as " + h);
-		}
+// Max/min values
+Raytracing.Math.roundToMax = function (value, max) { return Math.round(value) > Number(max) ? Number(max) : Math.round(value); }
+Raytracing.Math.roundToMin = function (value, min) { return Math.round(value) < Number(min) ? Number(min) : Math.round(value); }
 
-		// fields
-		this.setWidth(w);  // width of area
-		this.setLength(l); // height of area
-		this.setHeight(h); // length of area
-		this.viewPoint = new Raytracing.ViewPoint(this,
-		                                          Math.floor(this._width / 2),
-		                                          Math.floor(this._length / 2),
-		                                          0);
-		this._grid = []; // create the internal abstraction
-		for (var x = 0; x < w; x++) {
-			var col = []; // column to add
-			for (var y = 0; y < l; y++) {
-				var row = []; // row to add
-				for (var z = 0; z < h; z++) {
-					row.push(new Raytracing.Pixel());
-				}
-				col.push(row);
-			}
-			this._grid.push(col);
-		}
-	},
-	
-	ViewPoint : function (space, x, y, r) { // constructor for a new view point
-		// validation
-		if (!space instanceof Raytracing.Space) {
-			throw new Raytracing.Exception("Invalid constructor parameter: space passed as " + space);
-		}
-		if (isNaN(x)) {
-			throw new Raytracing.Exception("Invalid constructor parameter: x passed as " + x);
-		}
-		if (isNaN(y)) {
-			throw new Raytracing.Exception("Invalid constructor parameter: y passed as " + y);
-		}
-		if (isNaN(r)) {
-			throw new Raytracing.Exception("Invalid constructor parameter: r passed as " + r);
-		}
-
-		// fields
-		this._space = space; // the space this point occupies
-		this.setXPos(x);     // x position of point
-		this.setYPos(y);     // y position of point
-		this.setRotation(r); // rotation of point
-	},
-	
-	Pixel : function (r, g, b) { // constructor for a new pixel
-		// fields
-		this.setRed(r);   // red component
-		this.setGreen(g); // green component
-		this.setBlue(b);  // blue component
+/*
+ ____             _                  _               ____                                             _                   _
+|  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  / ___| _ __   __ _  ___ ___    ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __
+| |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | \___ \| '_ \ / _` |/ __/ _ \  / __/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
+|  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_ ___) | |_) | (_| | (_|  __/ | (_| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |
+|_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)____/| .__/ \__,_|\___\___|  \___\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|
+            |___/                            |___/        |_|
+*/
+Raytracing.Space = function (width, length, height) {
+	// validation
+	if (isNaN(width)) {
+		throw new TypeError("Raytracing.Space: width passed as " + width);
 	}
-};
+	if (isNaN(length)) {
+		throw new TypeError("Raytracing.Space: length passed as " + length);
+	}
+	if (isNaN(height)) {
+		throw new TypeError("Raytracing.Space: height passed as " + height);
+	}
 
-/* Raytracing.Space */
-Raytracing.Space.prototype.getWidth = function () {
-	return this._width;
-};
-Raytracing.Space.prototype.setWidth = function (width) {
-	this._width = width;
-};
+	// fields
+	this.setWidth(width);
+	this.setLength(length);
+	this.setHeight(height);
+	this.viewPoint = new Raytracing.ViewPoint(this,
+	                                          Math.floor(this._width / 2),
+	                                          Math.floor(this._length / 2),
+	                                          0);
+	this._grid = []; // create the internal abstraction
+	for (var x = 0; x < width; x++) {
+		var col = []; // column to add
+		for (var y = 0; y < length; y++) {
+			var row = []; // row to add
+			for (var z = 0; z < height; z++) {
+				row.push(new Raytracing.Pixel());
+			}
+			col.push(row);
+		}
+		this._grid.push(col);
+	}
+},
 
-Raytracing.Space.prototype.getLength = function () {
-	return this._length;
-};
-Raytracing.Space.prototype.setLength = function (length) {
-	this._length = length;
-};
+/*
+ ____             _                  _           __     ___               ____       _       _                         _                   _
+|  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ \ \   / (_) _____      _|  _ \ ___ (_)_ __ | |_    ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __
+| |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` \ \ / /| |/ _ \ \ /\ / / |_) / _ \| | '_ \| __|  / __/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
+|  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |\ V / | |  __/\ V  V /|  __/ (_) | | | | | |_  | (_| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |
+|_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_/  |_|\___| \_/\_/ |_|   \___/|_|_| |_|\__|  \___\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|
+            |___/                            |___/
+*/
+Raytracing.ViewPoint = function (space, x, y, rotation) {
+	// validation
+	if (!space instanceof Raytracing.Space) {
+		throw new TypeError("Raytracing.ViewPoint(): " + space + "is not a Raytracing.Space");
+	}
+	if (isNaN(x)) {
+		throw new TypeError("Raytracing.ViewPoint(): " + x + " is NaN");
+	}
+	if (isNaN(y)) {
+		throw new TypeError("Raytracing.ViewPoint(): " + y + " is NaN");
+	}
+	if (isNaN(rotation)) {
+		throw new TypeError("Raytracing.ViewPoint(): " + rotation + " is NaN");
+	}
 
-Raytracing.Space.prototype.getHeight = function () {
-	return this._height;
-};
-Raytracing.Space.prototype.setHeight = function (height) {
-	this._height = height;
-};
+	// fields
+	this._space = space;        // the space this point occupies
+	this.setXPos(x);            // x position of point
+	this.setYPos(y);            // y position of point
+	this.setRotation(rotation); // rotation of point
+},
 
-Raytracing.Space.prototype.getPixelsAt = function (x, y) {
-	return this._grid[x][y];
-};
+/*
+ ____             _                  _               ____  _          _                       _                   _
+|  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  |  _ \(_)_  _____| |   ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __
+| |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | | |_) | \ \/ / _ \ |  / __/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
+|  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_|  __/| |>  <  __/ | | (_| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |
+|_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_|   |_/_/\_\___|_|  \___\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|
+            |___/                            |___/
+*/
+Raytracing.Pixel = function (r, g, b) {
+	// fields
+	this.setRed(r);   // red component
+	this.setGreen(g); // green component
+	this.setBlue(b);  // blue component
+}
 
-Raytracing.Space.prototype.render = function (w, h, blurDistance) {
+/*
+ ____             _                  _               ____                                         _        _
+|  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  / ___| _ __   __ _  ___ ___   _ __  _ __ ___ | |_ ___ | |_ _   _ _ __   ___
+| |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | \___ \| '_ \ / _` |/ __/ _ \ | '_ \| '__/ _ \| __/ _ \| __| | | | '_ \ / _ \
+|  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_ ___) | |_) | (_| | (_|  __/ | |_) | | | (_) | || (_) | |_| |_| | |_) |  __/
+|_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)____/| .__/ \__,_|\___\___| | .__/|_|  \___/ \__\___/ \__|\__, | .__/ \___|
+            |___/                            |___/        |_|                    |_|                           |___/|_|
+*/
+Raytracing.Space.prototype.getWidth = function ()      { return this._width;  }
+Raytracing.Space.prototype.setWidth = function (width) { this._width = width; }
+
+Raytracing.Space.prototype.getLength = function ()       { return this._length;   }
+Raytracing.Space.prototype.setLength = function (length) { this._length = length; }
+
+Raytracing.Space.prototype.getHeight = function ()       { return this._height;   }
+Raytracing.Space.prototype.setHeight = function (height) { this._height = height; }
+
+Raytracing.Space.prototype.getPixelsAt = function (x, y) { return this._grid[x][y]; }
+
+Raytracing.Space.prototype.render = function (width, height, blurDistance) {
 	// returns a w by h grid of pixels to draw
 	var screen = [];
 
 	// calculate the angle in degrees of each horizontal pixel
-	var anglePerPixel = Raytracing.ViewPoint.FieldOfView / w;
+	var anglePerPixel = Raytracing.ViewPoint.FieldOfView / width;
 	var startingAngle = this.viewPoint.getRotation() - Raytracing.ViewPoint.FieldOfView / 2;
-	
+
 	// perspectiveRatio dictates how small things in the distance are
 	var perspectiveRatio = 0.75;
 
-	for (var x = 0; x < w; x++) {
+	for (var x = 0; x < width; x++) {
 		screen.push([]); // add a pixel column to the screen
 
 		// scan all currently visible pixels
@@ -156,7 +174,7 @@ Raytracing.Space.prototype.render = function (w, h, blurDistance) {
 		}
 
 		// add empty pixels to screen column until pixels are centered
-		for (var topPadding = 0; topPadding < Math.floor((h - pixelsToUse.length) / 2); topPadding++) {
+		for (var topPadding = 0; topPadding < Math.floor((height - pixelsToUse.length) / 2); topPadding++) {
 			screen[x].push(new Raytracing.Pixel());
 		}
 
@@ -166,53 +184,53 @@ Raytracing.Space.prototype.render = function (w, h, blurDistance) {
 		}
 
 		// add empty pixels to screen column until column full
-		while (screen[x].length < h) {
+		while (screen[x].length < height) {
 			screen[x].push(new Raytracing.Pixel());
 		}
 	}
 
 	return screen;
-};
+}
 
-/* Raytracing.ViewPoint */
-Raytracing.ViewPoint.prototype.getXPos = function () {
-	return this._x;
-};
-Raytracing.ViewPoint.prototype.setXPos = function (newX) {
-	if (0 <= newX && newX <= this._space.getWidth()) {
-		this._x = newX;
-	} else {
-		this._x = newX < 0 ? 0 : this._space.getWidth();
-	}
-};
+/*
+ ____             _                  _           __     ___               ____       _       _                     _        _
+|  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ \ \   / (_) _____      _|  _ \ ___ (_)_ __ | |_   _ __  _ __ ___ | |_ ___ | |_ _   _ _ __   ___
+| |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` \ \ / /| |/ _ \ \ /\ / / |_) / _ \| | '_ \| __| | '_ \| '__/ _ \| __/ _ \| __| | | | '_ \ / _ \
+|  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |\ V / | |  __/\ V  V /|  __/ (_) | | | | | |_  | |_) | | | (_) | || (_) | |_| |_| | |_) |  __/
+|_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_/  |_|\___| \_/\_/ |_|   \___/|_|_| |_|\__| | .__/|_|  \___/ \__\___/ \__|\__, | .__/ \___|
+            |___/                            |___/                                                |_|                           |___/|_|
+*/
+Raytracing.ViewPoint.prototype.getXPos = function () { return this._x; }
+Raytracing.ViewPoint.prototype.setXPos = function (x) {
+	return 0 <= x && x <= this._space.getWidth()
+		? this._x = x
+		: this._x = x >= 0
+			? this._space.getWidth()
+			: 0;
+}
 
-Raytracing.ViewPoint.prototype.getYPos = function () {
-	return this._y;
-};
-Raytracing.ViewPoint.prototype.setYPos = function (newY) {
-	if (0 <= newY && newY <= this._space.getLength()) {
-		this._y = newY;
-	} else {
-		this._y = newY < 0 ? 0 : this._space.getLength();
-	}
-};
+Raytracing.ViewPoint.prototype.getYPos = function () { return this._y; }
+Raytracing.ViewPoint.prototype.setYPos = function (y) {
+	return 0 <= y && y <= this._space.getLength()
+		? this._y = y
+		: this._y = y >= 0
+			? this._space.getLength()
+			: 0;
+}
 
-Raytracing.ViewPoint.prototype.getRotation = function () {
-	return this._r;
-};
+Raytracing.ViewPoint.prototype.getRotation = function () { return this.rotation; }
 Raytracing.ViewPoint.prototype.setRotation = function (rotation) {
 	if (0 <= rotation && rotation <= 359) {
-		this._r = rotation;
+		this.rotation = rotation;
 	} else if (rotation > 0) {
-		this._r = rotation % 360;
+		this.rotation = rotation % 360;
 	} else {
 		while (rotation < 0) {
 			rotation += 360;
 		}
-		this._r = rotation;
+		this.rotation = rotation;
 	}
-};
-
+}
 
 Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and distance at angle
 	// calculate the ratio of x to y
@@ -288,67 +306,56 @@ Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and d
 			)
 		),
 		pixels : pixels
-	};
-};
+	}
+}
 
-Raytracing.ViewPoint.prototype.moveForwards  = function () { throw "TODO" };
-Raytracing.ViewPoint.prototype.moveBackwards = function () { throw "TODO" };
-Raytracing.ViewPoint.prototype.moveLeft      = function () { throw "TODO" };
-Raytracing.ViewPoint.prototype.moveRight     = function () { throw "TODO" };
+Raytracing.ViewPoint.prototype.moveForwards  = function () { throw "TODO" }
+Raytracing.ViewPoint.prototype.moveBackwards = function () { throw "TODO" }
+Raytracing.ViewPoint.prototype.moveLeft      = function () { throw "TODO" }
+Raytracing.ViewPoint.prototype.moveRight     = function () { throw "TODO" }
 
-Raytracing.ViewPoint.prototype.turnLeft  = function () { throw "TODO" };
-Raytracing.ViewPoint.prototype.turnRight = function () { throw "TODO" };
+Raytracing.ViewPoint.prototype.turnLeft  = function () { throw "TODO" }
+Raytracing.ViewPoint.prototype.turnRight = function () { throw "TODO" }
 
 Raytracing.ViewPoint.FieldOfView = 90; // how many degrees the view point can see
 
-/* Raytracing.Pixel */
-Raytracing.Pixel.prototype.getRed = function () {
-	return this._r;
-};
+/*
+ ____             _                  _               ____  _          _                   _        _
+|  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  |  _ \(_)_  _____| |  _ __  _ __ ___ | |_ ___ | |_ _   _ _ __   ___
+| |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | | |_) | \ \/ / _ \ | | '_ \| '__/ _ \| __/ _ \| __| | | | '_ \ / _ \
+|  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_|  __/| |>  <  __/ | | |_) | | | (_) | || (_) | |_| |_| | |_) |  __/
+|_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_|   |_/_/\_\___|_| | .__/|_|  \___/ \__\___/ \__|\__, | .__/ \___|
+            |___/                            |___/                       |_|                           |___/|_|
+*/
+Raytracing.Pixel.prototype.getRed = function () { return this.red; }
 Raytracing.Pixel.prototype.setRed = function (red) {
-	if (0 <= red && red <= 255) {
-		this._r = Math.round(red);
-	} else {
-		this._r = NaN;
-	}
-};
-
-Raytracing.Pixel.prototype.getGreen = function () {
-	return this._g;
-};
-Raytracing.Pixel.prototype.setGreen = function (green) {
-	if (0 <= green && green <= 255) {
-		this._g = Math.round(green);
-	} else {
-		this._g = NaN;
-	}
-};
-
-Raytracing.Pixel.prototype.getBlue = function () {
-	return this._b;
-};
-Raytracing.Pixel.prototype.setBlue = function (blue) {
-	if (0 <= blue && blue <= 255) {
-		this._b = Math.round(blue);
-	} else {
-		this._b = NaN;
-	}
-};
-
-Raytracing.Pixel.prototype.isPixelOn = function () {
-	return !isNaN(this._r) &&
-	       !isNaN(this._g) &&
-	       !isNaN(this._b);
-};
-
-Raytracing.Pixel.prototype.toHex = function () {
-	return this.toString("#RGB");
+	return 0 <= red && red <= 255
+		? this.red = Math.round(red)
+		: this.red = NaN;
 }
 
-Raytracing.Pixel.prototype.toCSS = function () {
-	return "rgb(" + this.toString("r, g, b") + ")";
-};
+Raytracing.Pixel.prototype.getGreen = function () { return this.green; }
+Raytracing.Pixel.prototype.setGreen = function (green) {
+	return 0 <= green && green <= 255
+		? this.green = Math.round(green)
+		: this.green = NaN;
+}
 
+Raytracing.Pixel.prototype.getBlue = function () { return this.blue; }
+Raytracing.Pixel.prototype.setBlue = function (blue) {
+	return 0 <= blue && blue <= 255
+		? this.blue = Math.round(blue)
+		: this.blue = NaN;
+}
+
+Raytracing.Pixel.prototype.isPixelOn = function () {
+	return !isNaN(this.red)   &&
+	       !isNaN(this.green) &&
+	       !isNaN(this.blue);
+}
+
+Raytracing.Pixel.prototype.toHex = function () { return          this.toString("#RGB");          }
+Raytracing.Pixel.prototype.toCSS = function () { return "rgb(" + this.toString("r, g, b") + ")"; }
 Raytracing.Pixel.prototype.toString = function (format) {
 	// format substitutes "r", "g", and "b" to decimal values of the
 	// corresponding color value of the pixel, and substitutes "R", "G",
@@ -362,8 +369,8 @@ Raytracing.Pixel.prototype.toString = function (format) {
 		        .replace(/R/, ("0" + this.getRed().toString(16)).substr(-2))
 		        .replace(/G/, ("0" + this.getGreen().toString(16)).substr(-2))
 		        .replace(/B/, ("0" + this.getBlue().toString(16)).substr(-2))
-		: "[object Raytracing.Pixel]" ;
-};
+		: "[object Raytracing.Pixel]";
+}
 
 Raytracing.Pixel.Average = function (xs) { // static method to average a list of pixels
 	if (Array.isArray(xs)) {
@@ -393,4 +400,4 @@ Raytracing.Pixel.Average = function (xs) { // static method to average a list of
 	} else {
 		return new Raytracing.Pixel();
 	}
-};
+}
