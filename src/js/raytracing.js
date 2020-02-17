@@ -206,17 +206,17 @@ Raytracing.ViewPoint.prototype.setYPos = function (y) {
 			: 0;
 }
 
-Raytracing.ViewPoint.prototype.getRotation = function () { return this.rotation; }
+Raytracing.ViewPoint.prototype.getRotation = function () { return this._rotation; }
 Raytracing.ViewPoint.prototype.setRotation = function (rotation) {
 	if (0 <= rotation && rotation <= 359) {
-		this.rotation = rotation;
+		this._rotation = rotation;
 	} else if (rotation > 0) {
-		this.rotation = rotation % 360;
+		this._rotation = rotation % 360;
 	} else {
 		while (rotation < 0) {
 			rotation += 360;
 		}
-		this.rotation = rotation;
+		this._rotation = rotation;
 	}
 }
 
