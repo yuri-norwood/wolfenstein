@@ -242,7 +242,7 @@ Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and d
 
 	while (!stopScanning &&
 	       0 <= xDistance &&
-	       xDistance <= this.space.getWidth()
+	       xDistance <= this._space.getWidth()
 	) {
 		while (!stopScanning &&
 		       0 <= yDistance &&
