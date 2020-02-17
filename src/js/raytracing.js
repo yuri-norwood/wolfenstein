@@ -68,13 +68,13 @@ Raytracing.ViewPoint = function (space, x, y, rotation) {
 		throw new TypeError("Raytracing.ViewPoint(): " + space + "is not a Raytracing.Space");
 	}
 	if (isNaN(x)) {
-		throw new TypeError("Raytracing.ViewPoint(): " + x + " is NaN");
+		throw new TypeError("Raytracing.ViewPoint(): " + x + " is not a number");
 	}
 	if (isNaN(y)) {
-		throw new TypeError("Raytracing.ViewPoint(): " + y + " is NaN");
+		throw new TypeError("Raytracing.ViewPoint(): " + y + " is not a number");
 	}
 	if (isNaN(rotation)) {
-		throw new TypeError("Raytracing.ViewPoint(): " + rotation + " is NaN");
+		throw new TypeError("Raytracing.ViewPoint(): " + rotation + " is not a number");
 	}
 
 	// fields
