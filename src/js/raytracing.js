@@ -118,9 +118,28 @@ Raytracing.Space.prototype.setLength = function (length) { this._length = length
 Raytracing.Space.prototype.getHeight = function ()       { return this._height;   }
 Raytracing.Space.prototype.setHeight = function (height) { this._height = height; }
 
-Raytracing.Space.prototype.getPixelsAt = function (x, y) { return this._grid[x][y]; }
+Raytracing.Space.prototype.getPixelsAt = function (x, y) { return this._grid[x][y] ? this._grid[x][y] : []; }
 
-Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           { throw "TODO" }
+Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           {
+	// validate the pixels
+	if (pixels.every(function (pixel) {
+			return pixel instanceof Raytracing.Pixel && pixel.isPixelOn();
+		})
+	) {
+		throw new TypeError("Raytracing.Space.drawPoint(): not all pixels in (" + pixels + ") are valid Raytracing.Pixel instances");
+	}
+
+	// pad the pixels to ensure there are enough
+	var i = 0;
+	while (pixels.length < this.getHeight()) {
+		pixels.push(pixels[i++]);
+	}
+
+	// populate the point
+	for (var z = 0; z < this.getHeight(); z++) {
+		this._grid[x][y][z] = pixels[z];
+	}
+}
 Raytracing.Space.prototype.drawLine      = function (x1, y1, x2, y2, pixels) { throw "TODO" }
 Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) { throw "TODO" }
 Raytracing.Space.prototype.drawCircle    = function (x, y, r, pixels)        { throw "TODO" }
