@@ -59,8 +59,8 @@ var Raytracing = {
 
 		// fields
 		this.setWidth(w);  // width of area
-		this.setHeight(l); // length of area
-		this.setLength(h); // height of area
+		this.setLength(l); // height of area
+		this.setHeight(h); // length of area
 		this.viewPoint = new Raytracing.ViewPoint(this,
 		                                          Math.floor(this._width / 2),
 		                                          Math.floor(this._length / 2),
