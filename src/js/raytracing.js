@@ -26,14 +26,7 @@ var Raytracing = {
 		}
 	},
 
-	Exception : function (message) {
-		return Object.create(Error.prototype,
-							{
-								message : {
-									value : message
-								}
-							});
-	},
+	Exception : Error,
 
 	Space : function (w, l, h) { // constructor for a new 3D space
 		// validation
