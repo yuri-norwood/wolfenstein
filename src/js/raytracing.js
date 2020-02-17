@@ -297,10 +297,22 @@ Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and d
 	}
 }
 
-Raytracing.ViewPoint.prototype.moveForwards  = function () { throw "TODO" }
-Raytracing.ViewPoint.prototype.moveBackwards = function () { throw "TODO" }
-Raytracing.ViewPoint.prototype.moveLeft      = function () { throw "TODO" }
-Raytracing.ViewPoint.prototype.moveRight     = function () { throw "TODO" }
+Raytracing.ViewPoint.prototype.moveForwards  = function (distance) { ; }
+Raytracing.ViewPoint.prototype.moveBackwards = function (distance) {
+	this.turnLeft(180); // turn to that relative direction
+	this.moveForwards(distance); // move forward by that distance
+	this.turnRight(180); // turn back to face back to the original direction
+}
+Raytracing.ViewPoint.prototype.moveLeft      = function (distance) {
+	this.turnLeft(90); // turn to that relative direction
+	this.moveForwards(distance); // move forward by that distance
+	this.turnRight(90); // turn back to face back to the original direction
+}
+Raytracing.ViewPoint.prototype.moveRight     = function (distance) {
+	this.turnRight(90); // turn to that relative direction
+	this.moveForwards(distance); // move forward by that distance
+	this.turnLeft(90); // turn back to face back to the original direction
+}
 
 Raytracing.ViewPoint.prototype.turnLeft  = function (angle) {
 	this.setRotation( // set new rotation...
