@@ -92,30 +92,97 @@ Drawing.Pixel.Average = function (xs) { // static method to average a list of pi
 }
 
 
-function draw_frame(ctxt, frame, x_unit, y_unit) {
-	for (var i = 0; i < frame.length; i++) {
-		ctxt.beginPath();
-		ctxt.rect(
-			(i % 100) * x_unit,
-			Math.floor(i / 100) * y_unit,
-			x_unit,
-			y_unit
-		);
-		ctxt.fillStyle = frame[i].toCSS();
-		ctxt.fill();
-		ctxt.stroke();
+/*
+Drawing.Canvas Class
+*/
+Drawing.Canvas = function (selector, scale) {
+	// process
+	var canvas = document.querySelector("" + selector);
+
+	// validate
+	if (!(canvas instanceof Element) || canvas.nodeName !== "CANVAS") {
+		throw new TypeError("Drawing.Canvas(" + selector + ", " + scale + "): selector doesn't return valid Canvas Element");
+	} else if (isNaN(scale) || scale < 1) {
+		throw new TypeError("Drawing.Canvas(" + selector + ", " + scale + "): scale is not a valid scale");
+	}
+
+	// construct
+	this._canvas  = canvas;
+	this._context = canvas.getContext("2d")
+	this._width   = canvas.width;
+	this._height  = canvas.height;
+	this._scale   = scale; // ratio of true pixels to drawn "pixels"
+	this.space    = new Raytracing.Space(Math.round(canvas.width / scale),
+	                                     Math.round(canvas.height / scale),
+	                                     Math.round(canvas.height / scale));
+}
+
+Drawing.Canvas.prototype.getWidth  = function () { return this._width;  }
+Drawing.Canvas.prototype.getHeight = function () { return this._height; }
+Drawing.Canvas.prototype.getScale  = function () { return this._scale;  }
+
+Drawing.Canvas.prototype.beginPath = function () { this._context.beginPath(); }
+Drawing.Canvas.prototype.rectangle = function (x, y, w, h) { this._context.rect(x, y, w, h); }
+Drawing.Canvas.prototype.fillStyle = function (style) { this._context.fillStyle = style; }
+Drawing.Canvas.prototype.fill      = function () { this._context.fill(); }
+Drawing.Canvas.prototype.stroke    = function () { this._context.stroke(); }
+
+Drawing.Canvas.prototype.drawPixel = function (x, y, pixel) {
+	this.beginPath();
+	this.rectangle((x * this.getScale()),
+	               (y * this.getScale()),
+	               this.getScale(),
+	               this.getScale());
+	this.fillStyle(pixel.toCSS());
+	this.fill();
+	this.stroke();
+}
+
+Drawing.Canvas.prototype.drawFrame = function (frame) {
+	for (var x = 0; x < this.getWidth() && x < frame.getWidth() ; x ++) {
+		for (var y = 0; y < this.getHeight() && y < frame.getHeight(); y++) {
+			this.drawPixel(x, y, frame.getPixelAt(x, y));
+		}
 	}
 }
 
+Drawing.Canvas.FramesPerSecond = 2;
 
-var space;
+
+/*
+Drawing.Frame Class
+*/
+Drawing.Frame = function (width, height, pixelGrid) {
+	// validate
+	if (isNaN(width) || width < 0) {
+		throw new TypeError("Drawing.Frame(" + width + ", " + height + ", " + pixelGrid + "): width is not a valid width");
+	} else if (isNaN(height) || height < 0) {
+		throw new TypeError("Drawing.Frame(" + width + ", " + height + ", " + pixelGrid + "): height is not a valid height");
+	} else if (!pixelGrid || pixelGrid.length !== width || !pixelGrid.every(pixelRow => pixelRow.length === height)) {
+		throw new TypeError("Drawing.Frame(" + width + ", " + height + ", " + pixelGrid + "): pixelGrid doesn't contain pixels matching up to " + width + " by " + height);
+	}
+
+	// construct
+	this._width  = width;
+	this._height = height;
+	this._grid   = pixelGrid;
+}
+
+Drawing.Frame.prototype.getWidth   = function () { return this._width;  }
+Drawing.Frame.prototype.getHeight  = function () { return this._height; }
+Drawing.Frame.prototype.getPixelAt = function (x, y) {
+	try {
+		return this._grid[x][y];
+	} catch (e) {
+		return new Drawing.Pixel();
+	}
+}
+
+var canvas;
 
 $(window).on("load", function () {
-	var canvas = document.getElementById("canvas");
-	var context = canvas.getContext("2d");
-	var x_unit = canvas.width / 100;
-	var y_unit = canvas.height / 100;
-	var framesPerSec = 2;
+	canvas = new Drawing.Canvas("#canvas", 8)
+
 	var randomSurface = function () {
 		return [
 			new Drawing.Pixel(
@@ -126,37 +193,28 @@ $(window).on("load", function () {
 		];
 	}
 
-	space = new Raytracing.Space(100, 100, 100);
-
 	// draw the space border
-	for (var x = 0; x < space.getWidth(); x++) {
-		for (var y = 0; y < space.getLength(); y++) {
-			if (y === 0 || y === space.getLength() - 1 || x === 0 || x == space.getWidth() - 1) {
-				space.drawPoint(x, y, randomSurface());
+	for (var x = 0; x < canvas.space.getWidth(); x++) {
+		for (var y = 0; y < canvas.space.getLength(); y++) {
+			if (y === 0 || y === canvas.space.getLength() - 1 || x === 0 || x == canvas.space.getWidth() - 1) {
+				canvas.space.drawPoint(x, y, randomSurface());
 			}
 	 	}
 	}
 
 	// draw some rectangles
-	space.drawRectangle(5, 25, 9, 72, randomSurface());
-	space.drawRectangle(15, 75, 19, 92, randomSurface());
-	space.drawRectangle(25, 15, 29, 48, randomSurface());
-	space.drawRectangle(95, 5, 36, 43, randomSurface());
-	space.drawRectangle(95, 75, 56, 93, randomSurface());
+	canvas.space.drawRectangle(5, 25, 9, 72, randomSurface());
+	canvas.space.drawRectangle(15, 75, 19, 92, randomSurface());
+	canvas.space.drawRectangle(25, 15, 29, 48, randomSurface());
+	canvas.space.drawRectangle(95, 5, 36, 43, randomSurface());
+	canvas.space.drawRectangle(95, 75, 56, 93, randomSurface());
 
 	// draw some circles
-	space.drawCircle(30, 70, 10, randomSurface());
+	canvas.space.drawCircle(30, 70, 10, randomSurface())
 
 	setInterval(function () {
-		var grid = space.map();
-		var frame = [];
-
-		for (var x = 0; x < grid.length; x++) {
-			for (var y = 0; y < grid[x].length; y++) {
-				frame.push(grid[x][y]);
-			}
-		}
-
-		draw_frame(context, frame, x_unit, y_unit);
-	}, 1000 / framesPerSec);
+		canvas.drawFrame(new Drawing.Frame(Math.round(canvas.getWidth() / canvas.getScale()),
+		                                   Math.round(canvas.getHeight() / canvas.getScale()),
+		                                   canvas.space.map()))
+	}, 1000 / Drawing.Canvas.FramesPerSecond);
 });
