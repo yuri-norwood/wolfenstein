@@ -266,28 +266,10 @@ Raytracing.ViewPoint.prototype.moveSouth = function (distance) { this.setYPos(th
 Raytracing.ViewPoint.prototype.moveEast  = function (distance) { this.setXPos(this.getXPos() + distance); }
 Raytracing.ViewPoint.prototype.moveWest  = function (distance) { this.setXPos(this.getXPos() - distance); }
 
-Raytracing.ViewPoint.prototype.moveForwards  = function (distance) { // BUG (?)
-	var rise = distance * Math.sin(Raytracing.Math.degreesToRadians(this.getRotation()));
-	var run = Math.sqrt(Math.pow(distance, 2) - Math.pow(rise, 2));
-
-	this.moveSouth(rise);
-	this.moveEast(run);
-}
-Raytracing.ViewPoint.prototype.moveBackwards = function (distance) { // BUG (?)
-	this.turnLeft(180); // turn to that relative direction
-	this.moveForwards(distance); // move forward by that distance
-	this.turnRight(180); // turn back to face back to the original direction
-}
-Raytracing.ViewPoint.prototype.moveLeft      = function (distance) { // BUG (?)
-	this.turnLeft(90); // turn to that relative direction
-	this.moveForwards(distance); // move forward by that distance
-	this.turnRight(90); // turn back to face back to the original direction
-}
-Raytracing.ViewPoint.prototype.moveRight     = function (distance) { // BUG (?)
-	this.turnRight(90); // turn to that relative direction
-	this.moveForwards(distance); // move forward by that distance
-	this.turnLeft(90); // turn back to face back to the original direction
-}
+Raytracing.ViewPoint.prototype.moveForwards  = function (distance) { throw new Error("Unimplemented") }
+Raytracing.ViewPoint.prototype.moveBackwards = function (distance) { throw new Error("Unimplemented") }
+Raytracing.ViewPoint.prototype.moveLeft      = function (distance) { throw new Error("Unimplemented") }
+Raytracing.ViewPoint.prototype.moveRight     = function (distance) { throw new Error("Unimplemented") }
 
 Raytracing.ViewPoint.prototype.turnLeft  = function (angle) {
 	this.setRotation( // set new rotation...
