@@ -42,7 +42,7 @@ $(window).on("load", function () {
 
 	space.drawRectangle(5, 25, 9, 72, defaultSurface);
 	space.drawRectangle(15, 75, 19, 92, defaultSurface);
-	space.drawRectangle(25, 15, 29, 42, defaultSurface);
+	space.drawRectangle(25, 15, 29, 48, defaultSurface);
 	space.drawRectangle(95, 5, 36, 43, defaultSurface);
 	space.drawRectangle(95, 75, 56, 93, defaultSurface);
 
