@@ -187,8 +187,8 @@ Raytracing.Space.prototype.map = function () {
 	for (var x = 0; x < this.getWidth(); x++) {
 		map.push("\n");
 		for (var y = 0; y < this.getLength(); y++) {
-			map[x] = map[x] + (this.viewPoint.getXPos() == x &&
-			                   this.viewPoint.getYPos() == y
+			map[x] = map[x] + (Math.round(this.viewPoint.getXPos()) == x &&
+			                   Math.round(this.viewPoint.getYPos()) == y
 			                   ? 0 <= this.viewPoint.getRotation()   &&
 			                     this.viewPoint.getRotation() < 90
 			                     ? "^"
