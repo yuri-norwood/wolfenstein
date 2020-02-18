@@ -54,10 +54,8 @@ $(window).on("load", function () {
 	// draw some circles
 	space.drawCircle(30, 70, 10, randomSurface());
 
-	//setInterval(function () {
-		//space.viewPoint.turnLeft();
-
-		var grid = space.render(100, 100, 1000);
+	setInterval(function () {
+		var grid = space.map();
 		var frame = [];
 
 		for (var x = 0; x < grid.length; x++) {
@@ -71,5 +69,5 @@ $(window).on("load", function () {
 		}
 
 		draw_frame(context, frame, x_unit, y_unit);
-	//}, 1000 / framesPerSec);
+	}, 1000 / framesPerSec);
 });

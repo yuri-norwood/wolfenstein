@@ -188,30 +188,18 @@ Raytracing.Space.prototype.map = function () {
 	var map = [];
 
 	for (var x = 0; x < this.getWidth(); x++) {
-		map.push("\n");
+		map.push([]);
 		for (var y = 0; y < this.getLength(); y++) {
-			map[x] = map[x] + (Math.round(this.viewPoint.getXPos()) == x &&
-			                   Math.round(this.viewPoint.getYPos()) == y
-			                   ? 0 <= this.viewPoint.getRotation()   &&
-			                     this.viewPoint.getRotation() < 90
-			                     ? "^"
-			                     : 90 <= this.viewPoint.getRotation()  &&
-			                       this.viewPoint.getRotation() < 180
-			                       ? ">"
-			                       : 180 <= this.viewPoint.getRotation() &&
-			                         this.viewPoint.getRotation() < 270
-			                         ? "v"
-			                         : 270 <= this.viewPoint.getRotation() &&
-			                           this.viewPoint.getRotation() < 360
-			                           ? "<"
-			                           : "@"
-			                   : this.arePixelsOn(x, y)
-			                   	? "."
-			                   	: " ");
+			map[x][y] = (Math.round(this.viewPoint.getXPos()) == x &&
+			             Math.round(this.viewPoint.getYPos()) == y
+			             ? new Raytracing.Pixel(255, 0, 0)
+			             : this.arePixelsOn(x, y)
+			              ? new Raytracing.Pixel(255, 255, 255)
+			              : new Raytracing.Pixel(0, 0, 0));
 		}
 	}
 
-	return map.join("");
+	return map;
 }
 
 Raytracing.Space.prototype.render = function (width, height, blurDistance) { throw new Error("Unimplemented"); }
