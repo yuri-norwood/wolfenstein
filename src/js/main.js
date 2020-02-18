@@ -89,15 +89,19 @@ $(window).on("load", function () {
 
 		switch (key) {
 			case "w":
+			case "arrowup":
 				canvas.space.viewPoint.moveNorth(1);
 				break;
 			case "a":
+			case "arrowleft":
 				canvas.space.viewPoint.moveWest(1);
 				break;
 			case "s":
+			case "arrowdown":
 				canvas.space.viewPoint.moveSouth(1);
 				break;
 			case "d":
+			case "arrowright":
 				canvas.space.viewPoint.moveEast(1);
 				break;
 		}
