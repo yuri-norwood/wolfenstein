@@ -140,7 +140,19 @@ Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           {
 	}
 }
 Raytracing.Space.prototype.drawLine      = function (x1, y1, x2, y2, pixels) { throw "TODO" }
-Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) { throw "TODO" }
+Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) {
+	for (var x = x1; x !== x2; x1 <= x2 ? x++ : x--) {
+		for (var y = y1; y !== y2; y1 <= y2 ? y++ : y--) {
+			if (x === x1 ||
+			    x === x2 + (x1 <= x2 ? -1 : +1) ||
+			    y === y1 ||
+			    y === y2 + (y1 <= y2 ? -1 : +1)
+			) {
+				this.drawPoint(x, y, pixels);
+			}
+		}
+	}
+}
 Raytracing.Space.prototype.drawCircle    = function (x, y, r, pixels)        { throw "TODO" }
 
 Raytracing.Space.prototype.map = function () {
