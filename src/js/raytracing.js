@@ -119,8 +119,10 @@ Raytracing.Space.prototype.drawPoint = function (x, y, pixels) {
 	}
 
 	// populate the point
-	for (var z = 0; z < this.getHeight(); z++) {
-		this._grid[Math.round(x)][Math.round(y)][z] = pixels[z];
+	if (x < this.getWidth() && y < this.getLength()) {
+		for (var z = 0; z < this.getHeight(); z++) {
+			this._grid[Math.round(x)][Math.round(y)][z] = pixels[z];
+		}
 	}
 }
 
