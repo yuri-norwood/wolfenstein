@@ -22,13 +22,13 @@ var Raytracing = {}
 Raytracing.Space = function (width, length, height) {
 	// validation
 	if (isNaN(width)) {
-		throw new TypeError("Raytracing.Space: width passed as " + width);
+		throw new TypeError("Raytracing.Space(): width passed as " + width);
 	}
 	if (isNaN(length)) {
-		throw new TypeError("Raytracing.Space: length passed as " + length);
+		throw new TypeError("Raytracing.Space(): length passed as " + length);
 	}
 	if (isNaN(height)) {
-		throw new TypeError("Raytracing.Space: height passed as " + height);
+		throw new TypeError("Raytracing.Space(): height passed as " + height);
 	}
 
 	// fields
@@ -125,7 +125,7 @@ Raytracing.Space.prototype.drawPoint = function (x, y, pixels) {
 	// validate the pixels
 	if (pixels.length <= 0 || !pixels.every(pixel => pixel instanceof Raytracing.Pixel && pixel.isPixelOn())
 	) {
-		throw new TypeError("Raytracing.Space.drawPoint(): not all pixels in (" + pixels + ") are valid Raytracing.Pixel instances");
+		throw new TypeError("Raytracing.Space.drawPoint(" + x + ", " + y + ", " + pixels + "): not all pixels in (" + pixels + ") are valid Raytracing.Pixel instances");
 	}
 
 	// pad the pixels to ensure there are enough
@@ -311,16 +311,11 @@ Raytracing.ViewPoint.prototype.setRotation = function (rotation) {
 	}
 }
 
+Raytracing.ViewPoint.prototype.distanceTo = function (x, y) { return Math.round(Raytracing.Math.distance(this.getXPos(), this.getYPos(), x, y)); }
+
 Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and distance at angle
 	// calculate the ratio of x to y
 	var slope = Raytracing.Math.degreesToIncline(angle);
-
-	// ensure coordinates won't escape available space
-	slope = Raytracing.Math.roundToMax(
-		Raytracing.Math.roundToMin(
-			slope,
-			-Math.floor(this._space.getLength() / 2)),
-		Math.floor(this._space.getLength() / 2));
 
 	// get the angle in degrees and account for over/underflow
 	var oldAngle = this.getRotation(); // remember orientation
@@ -328,64 +323,92 @@ Raytracing.ViewPoint.prototype.scan = function (angle) { // returns pixels and d
 	var theta = this.getRotation(); // (angle in range 0 - 360)
 	this.setRotation(oldAngle); // return to previous orientation
 
+	// default to the current position
+	var x = this.getXPos();
+	var y = x * slope;
+
 	// determine directionality
-	var scanInNegativeXDirection = theta >= 90 && theta < 270;
-	var scanInNegativeYDirection = theta >=  0 && theta < 180;
+	var scanInNegativeXDirection = theta >=  0 && theta < 180;
+	var scanInNegativeYDirection = theta >= 90 && theta < 270;
 
-	// start counting the distance
-	var xDistance = 0;
-	var yDistance = 0;
-	var stopScanning = false;
+	// binary case wise
+	switch (Number.parseInt("" + Number(scanInNegativeXDirection) + Number(scanInNegativeYDirection), 2)) {
+		case 0:
+			while (x < this._space.getWidth()) {
+				y = x * slope;
 
-	while (!stopScanning &&
-	       0 <= xDistance &&
-	       xDistance <= this._space.getWidth()
-	) {
-		while (!stopScanning &&
-		       0 <= yDistance &&
-		       yDistance <= this._space.getLength() &&
-		       scanInNegativeYDirection
-		       	? (xDistance * slope) <= yDistance
-		       	: yDistance <= (xDistance * slope)
-		) {
-			var pixels = this._space.getPixelsAt(xDistance, yDistance);
+				while (y < this._space.getLength() && y < Math.round((x + 1) * slope)) {
+					if (this._space.arePixelsOn(x, y)) {
+						return {
+							distance : this.distanceTo(x, y),
+							pixels : this._space.getPixelsAt(x, y)
+						}
+					}
 
-			// stop looking if all pixels at the (x,y) cords are on
-			stopScanning = pixels.length > 0 && pixels.every(function (pixel) {
-				return pixel.isPixelOn();
-			});
+					y++;
+				}
 
-			// break out early if scan line hit something
-			if (stopScanning) {
-				break;
+				x++;
 			}
-
-			// move to next y position
-			scanInNegativeYDirection
-				? yDistance--
-				: yDistance++;
-		}
-
-		// break out early if scan line hit something
-		if (stopScanning) {
 			break;
-		}
+		case 1:
+			while (x < this._space.getWidth()) {
+				y = x * slope;
 
-		// move to next x position
-		scanInNegativeXDirection
-			? xDistance--
-			: xDistance++;
+				while (0 <= y && Math.round((x + 1) * slope) < y) {
+					if (this._space.arePixelsOn(x, y)) {
+						return {
+							distance : this.distanceTo(x, y),
+							pixels : this._space.getPixelsAt(x, y)
+						}
+					}
+
+					y--;
+				}
+
+				x++;
+			}
+			break;
+		case 2:
+			while (0 <= x) {
+				y = x * slope;
+
+				while (y < this._space.getLength() && y < Math.round((x - 1) * slope)) {
+					if (this._space.arePixelsOn(x, y)) {
+						return {
+							distance : this.distanceTo(x, y),
+							pixels : this._space.getPixelsAt(x, y)
+						}
+					}
+
+					y++;
+				}
+
+				x--;
+			}
+			break;
+		case 3:
+			while (0 <= x) {
+				y = x * slope;
+
+				while (0 <= y && Math.round((x - 1) * slope) < y) {
+					if (this._space.arePixelsOn(x, y)) {
+						return {
+							distance : this.distanceTo(x, y),
+							pixels : this._space.getPixelsAt(x, y)
+						}
+					}
+
+					y--;
+				}
+
+				x--;
+			}
+			break;
 	}
 
-	return {
-		distance : Math.round(
-			Math.sqrt( // good ol' Pythagoras
-				Math.pow(xDistance, 2) +
-				Math.pow(yDistance, 2)
-			)
-		),
-		pixels : pixels
-	}
+	// theoretically unreachable
+	throw new RangeError("Raytracing.ViewPoint.scan(" + angle + "): no surface hit, x reached: " + x + ", y reached: " + y);
 }
 
 Raytracing.ViewPoint.prototype.moveNorth = function (distance) { this.setYPos(this.getYPos() - distance); }
