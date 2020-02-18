@@ -107,17 +107,7 @@ Raytracing.Space.prototype.drawCircle = function (x, y, r, pixels) {
 
 	for (var i = x - r; i <= x + r; i++) {
 		for (var j = y - r; j <= y + r; j++) {
-			if (i <  0                ||
-			    i >= this.getWidth()  ||
-			    j <  0                ||
-			    j >= this.getLength()
-			) {
-				// out of the space bounds, skip this coordinate
-				continue;
-			}
-
-			if (
-			    (Raytracing.Math.distance(x, y, i, j) - tolerance) > r ||
+			if ((Raytracing.Math.distance(x, y, i, j) - tolerance) > r ||
 			    (Raytracing.Math.distance(x, y, i, j) + tolerance) < r
 			) {
 				// not on the  circumference, skip this coordinate
