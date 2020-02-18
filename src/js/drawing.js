@@ -27,8 +27,10 @@ $(window).on("load", function () {
 	space = new Raytracing.Space(100, 100, 100);
 	for (var x = 0; x < space.getWidth(); x++) {
 		for (var y = 0; y < space.getLength(); y++) {
-			for (var z = 0; z < space.getHeight(); z++) {
-				space._grid[x][y][z] = new Raytracing.Pixel(Math.random() * 255, Math.random() * 255, Math.random() * 255);
+			if (y === 0 || y === space.getLength() - 1 || x === 0 || x == space.getWidth()) {
+				for (var z = 0; z < space.getHeight(); z++) {
+					space._grid[x][y][z] = new Raytracing.Pixel(Math.random() * 255, Math.random() * 255, Math.random() * 255);
+				}
 			}
 		}
 	}
