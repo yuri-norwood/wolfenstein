@@ -23,50 +23,53 @@ $(window).on("load", function () {
 	var x_unit = canvas.width / 100;
 	var y_unit = canvas.height / 100;
 	var framesPerSec = 2;
-	var defaultSurface = [
-		new Raytracing.Pixel(
-			Math.random() * 255,
-			Math.random() * 255,
-			Math.random() * 255
-		)
-	];
+	var randomSurface = function () {
+		return [
+			new Raytracing.Pixel(
+				Math.random() * 255,
+				Math.random() * 255,
+				Math.random() * 255
+			)
+		];
+	}
+
+	space = new Raytracing.Space(100, 100, 100);
 
 	// draw the space border
-	space = new Raytracing.Space(100, 100, 100);
 	for (var x = 0; x < space.getWidth(); x++) {
 		for (var y = 0; y < space.getLength(); y++) {
 			if (y === 0 || y === space.getLength() - 1 || x === 0 || x == space.getWidth() - 1) {
-				space.drawPoint(x, y, defaultSurface);
+				space.drawPoint(x, y, randomSurface());
 			}
-		}
+	 	}
 	}
 
 	// draw some rectangles
-	space.drawRectangle(5, 25, 9, 72, defaultSurface);
-	space.drawRectangle(15, 75, 19, 92, defaultSurface);
-	space.drawRectangle(25, 15, 29, 48, defaultSurface);
-	space.drawRectangle(95, 5, 36, 43, defaultSurface);
-	space.drawRectangle(95, 75, 56, 93, defaultSurface);
+	space.drawRectangle(5, 25, 9, 72, randomSurface());
+	space.drawRectangle(15, 75, 19, 92, randomSurface());
+	space.drawRectangle(25, 15, 29, 48, randomSurface());
+	space.drawRectangle(95, 5, 36, 43, randomSurface());
+	space.drawRectangle(95, 75, 56, 93, randomSurface());
 
 	// draw some circles
-	space.drawCircle(30, 70, 10, defaultSurface);
+	space.drawCircle(30, 70, 10, randomSurface());
 
-	// setInterval(function () {
-	// 	space.viewPoint.turnLeft();
+	setInterval(function () {
+		space.viewPoint.turnLeft();
 
-	// 	var grid = space.render(100, 100, 1000);
-	// 	var frame = [];
+		var grid = space.render(100, 100, 1000);
+		var frame = [];
 
-	// 	for (var x = 0; x < grid.length; x++) {
-	// 		for (var y = 0; y < grid[x].length; y++) {
-	// 			frame.push({
-	// 				r : grid[x][y].getRed(),
-	// 				g : grid[x][y].getGreen(),
-	// 				b : grid[x][y].getBlue()
-	// 			});
-	// 		}
-	// 	}
+		for (var x = 0; x < grid.length; x++) {
+			for (var y = 0; y < grid[x].length; y++) {
+				frame.push({
+					r : grid[x][y].getRed(),
+					g : grid[x][y].getGreen(),
+					b : grid[x][y].getBlue()
+				});
+			}
+		}
 
-	// 	draw_frame(context, frame, x_unit, y_unit);
-	// }, 1000 / framesPerSec);
+		draw_frame(context, frame, x_unit, y_unit);
+	}, 1000 / framesPerSec);
 });
