@@ -31,6 +31,7 @@ $(window).on("load", function () {
 		)
 	];
 
+	// draw the space border
 	space = new Raytracing.Space(100, 100, 100);
 	for (var x = 0; x < space.getWidth(); x++) {
 		for (var y = 0; y < space.getLength(); y++) {
@@ -40,12 +41,14 @@ $(window).on("load", function () {
 		}
 	}
 
+	// draw some rectangles
 	space.drawRectangle(5, 25, 9, 72, defaultSurface);
 	space.drawRectangle(15, 75, 19, 92, defaultSurface);
 	space.drawRectangle(25, 15, 29, 48, defaultSurface);
 	space.drawRectangle(95, 5, 36, 43, defaultSurface);
 	space.drawRectangle(95, 75, 56, 93, defaultSurface);
 
+	// draw some circles
 	space.drawCircle(30, 70, 10, defaultSurface);
 
 	// setInterval(function () {
