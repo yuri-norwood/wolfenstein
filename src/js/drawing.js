@@ -46,6 +46,8 @@ $(window).on("load", function () {
 	space.drawRectangle(95, 5, 36, 43, defaultSurface);
 	space.drawRectangle(95, 75, 56, 93, defaultSurface);
 
+	space.drawCircle(50, 50, 10, defaultSurface);
+
 	// setInterval(function () {
 	// 	space.viewPoint.turnLeft();
 
