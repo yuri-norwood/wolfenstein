@@ -121,7 +121,7 @@ Raytracing.Space.prototype.setHeight = function (height) { this._height = height
 Raytracing.Space.prototype.getPixelsAt = function (x, y) { return 0 <= x && x < this.getWidth() && 0 <= y && y < this.getLength() && this._grid[x][y] ? this._grid[x][y] : []; }
 Raytracing.Space.prototype.arePixelsOn = function (x, y) { return this.getPixelsAt(x, y).length > 0 && this.getPixelsAt(x, y).every(pixel => pixel.isPixelOn()); }
 
-Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           {
+Raytracing.Space.prototype.drawPoint = function (x, y, pixels) {
 	// validate the pixels
 	if (pixels.length <= 0 || !pixels.every(pixel => pixel instanceof Raytracing.Pixel && pixel.isPixelOn())
 	) {
@@ -139,7 +139,9 @@ Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           {
 		this._grid[Math.round(x)][Math.round(y)][z] = pixels[z];
 	}
 }
-Raytracing.Space.prototype.drawLine      = function (x1, y1, x2, y2, pixels) { throw "TODO" }
+
+Raytracing.Space.prototype.drawLine = function (x1, y1, x2, y2, pixels) { throw "TODO" }
+
 Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) {
 	for (var x = x1; x !== x2; x1 <= x2 ? x++ : x--) {
 		for (var y = y1; y !== y2; y1 <= y2 ? y++ : y--) {
@@ -153,7 +155,8 @@ Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) {
 		}
 	}
 }
-Raytracing.Space.prototype.drawCircle    = function (x, y, r, pixels)        {
+
+Raytracing.Space.prototype.drawCircle = function (x, y, r, pixels) {
 	var r = Math.abs(r);
 	var tolerance = 0.5;
 
