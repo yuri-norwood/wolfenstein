@@ -119,12 +119,11 @@ Raytracing.Space.prototype.getHeight = function ()       { return this._height; 
 Raytracing.Space.prototype.setHeight = function (height) { this._height = height; }
 
 Raytracing.Space.prototype.getPixelsAt = function (x, y) { return this._grid[x][y] ? this._grid[x][y] : []; }
+Raytracing.Space.prototype.arePixelsOn = function (x, y) { return this.getPixelsAt(x, y).length > 0 && this.getPixelsAt(x, y).every(pixel => pixel.isPixelOn()); }
 
 Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           {
 	// validate the pixels
-	if (pixels.length <= 0 || !pixels.every(function (pixel) {
-			return pixel instanceof Raytracing.Pixel && pixel.isPixelOn();
-		})
+	if (pixels.length <= 0 || !pixels.every(pixel => pixel instanceof Raytracing.Pixel && pixel.isPixelOn())
 	) {
 		throw new TypeError("Raytracing.Space.drawPoint(): not all pixels in (" + pixels + ") are valid Raytracing.Pixel instances");
 	}
