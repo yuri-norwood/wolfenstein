@@ -235,18 +235,18 @@ Raytracing.Space.prototype.render = function (width, height, blurDistance) {
 		var distance = scanLine.distance;
 
 		// calculate which pixels to keep
-		var pixelsToUse = [];
-		if (distance < blurDistance) {
-			var numberOfPixels = pixels.length * perspectiveRatio;
-			var compressionRatio = Math.floor(pixels.length / numberOfPixels);
-			for (var i = 0; i < numberOfPixels; i++) {
-				var newPixels = [];
-				for (var j = 0; j < compressionRatio; j++) {
-					newPixels.push(pixels.pop());
-				}
-				pixelsToUse.push(Raytracing.Pixel.Average(newPixels));
-			}
-		}
+		var pixelsToUse = pixels; //[];
+		// if (distance < blurDistance) {
+		// 	var numberOfPixels = pixels.length * perspectiveRatio;
+		// 	var compressionRatio = Math.floor(pixels.length / numberOfPixels);
+		// 	for (var i = 0; i < numberOfPixels; i++) {
+		// 		var newPixels = [];
+		// 		for (var j = 0; j < compressionRatio; j++) {
+		// 			newPixels.push(pixels.pop());
+		// 		}
+		// 		pixelsToUse.push(Raytracing.Pixel.Average(newPixels));
+		// 	}
+		// }
 
 		// add empty pixels to screen column until pixels are centered
 		for (var topPadding = 0; topPadding < Math.floor((height - pixelsToUse.length) / 2); topPadding++) {
