@@ -163,7 +163,19 @@ Raytracing.Space.prototype.map = function () {
 		for (var y = 0; y < this.getLength(); y++) {
 			map[x] = map[x] + (this.viewPoint.getXPos() == x &&
 			                   this.viewPoint.getYPos() == y
-			                   ? "@"
+			                   ? 0 <= this.viewPoint.getRotation()   &&
+			                     this.viewPoint.getRotation() < 90
+			                     ? "^"
+			                     : 90 <= this.viewPoint.getRotation()  &&
+			                       this.viewPoint.getRotation() < 180
+			                       ? ">"
+			                       : 180 <= this.viewPoint.getRotation() &&
+			                         this.viewPoint.getRotation() < 270
+			                         ? "v"
+			                         : 270 <= this.viewPoint.getRotation() &&
+			                           this.viewPoint.getRotation() < 360
+			                           ? "<"
+			                           : "@"
 			                   : this.arePixelsOn(x, y)
 			                   	? "."
 			                   	: " ");
