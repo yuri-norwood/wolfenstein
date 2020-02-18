@@ -153,7 +153,33 @@ Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) {
 		}
 	}
 }
-Raytracing.Space.prototype.drawCircle    = function (x, y, r, pixels)        { throw "TODO" }
+Raytracing.Space.prototype.drawCircle    = function (x, y, r, pixels)        {
+	var r = Math.abs(r);
+	var tolerance = 0.5;
+
+	for (var i = x - r; i <= x + r; i++) {
+		for (var j = y - r; j <= y + r; j++) {
+			if (i <  0                ||
+			    i >= this.getWidth()  ||
+			    j <  0                ||
+			    j >= this.getLength()
+			) {
+				// out of the space bounds, skip this coordinate
+				continue;
+			}
+
+			if (
+			    (Raytracing.Math.distance(x, y, i, j) - tolerance) > r ||
+			    (Raytracing.Math.distance(x, y, i, j) + tolerance) < r
+			) {
+				// not on the  circumference, skip this coordinate
+				continue;
+			}
+
+			this.drawPoint(i, j, pixels);
+		}
+	}
+}
 
 Raytracing.Space.prototype.map = function () {
 	var map = [];
