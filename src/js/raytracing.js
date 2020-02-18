@@ -45,7 +45,7 @@ Raytracing.Space = function (width, length, height) {
 		for (var y = 0; y < length; y++) {
 			var row = []; // row to add
 			for (var z = 0; z < height; z++) {
-				row.push(new Raytracing.Pixel());
+				row.push(new Drawing.Pixel());
 			}
 			col.push(row);
 		}
@@ -86,22 +86,6 @@ Raytracing.ViewPoint = function (space, x, y, rotation) {
 
 
 /*
-  ____             _                  _               ____  _          _                       _                   _
- |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  |  _ \(_)_  _____| |   ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __
- | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | | |_) | \ \/ / _ \ |  / __/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
- |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_|  __/| |>  <  __/ | | (_| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |
- |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_|   |_/_/\_\___|_|  \___\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|
-             |___/                            |___/
-*/
-Raytracing.Pixel = function (r, g, b) {
-	// fields
-	this.setRed(r);   // red component
-	this.setGreen(g); // green component
-	this.setBlue(b);  // blue component
-}
-
-
-/*
   ____             _                  _               ____                                         _        _
  |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  / ___| _ __   __ _  ___ ___   _ __  _ __ ___ | |_ ___ | |_ _   _ _ __   ___
  | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | \___ \| '_ \ / _` |/ __/ _ \ | '_ \| '__/ _ \| __/ _ \| __| | | | '_ \ / _ \
@@ -123,9 +107,9 @@ Raytracing.Space.prototype.arePixelsOn = function (x, y) { return this.getPixels
 
 Raytracing.Space.prototype.drawPoint = function (x, y, pixels) {
 	// validate the pixels
-	if (pixels.length <= 0 || !pixels.every(pixel => pixel instanceof Raytracing.Pixel && pixel.isPixelOn())
+	if (pixels.length <= 0 || !pixels.every(pixel => pixel instanceof Drawing.Pixel && pixel.isPixelOn())
 	) {
-		throw new TypeError("Raytracing.Space.drawPoint(" + x + ", " + y + ", " + pixels + "): not all pixels in (" + pixels + ") are valid Raytracing.Pixel instances");
+		throw new TypeError("Raytracing.Space.drawPoint(" + x + ", " + y + ", " + pixels + "): not all pixels in (" + pixels + ") are valid Drawing.Pixel instances");
 	}
 
 	// pad the pixels to ensure there are enough
@@ -192,10 +176,10 @@ Raytracing.Space.prototype.map = function () {
 		for (var y = 0; y < this.getLength(); y++) {
 			map[x][y] = (Math.round(this.viewPoint.getXPos()) == x &&
 			             Math.round(this.viewPoint.getYPos()) == y
-			             ? new Raytracing.Pixel(255, 0, 0)
+			             ? new Drawing.Pixel(255, 0, 0)
 			             : this.arePixelsOn(x, y)
-			              ? new Raytracing.Pixel(255, 255, 255)
-			              : new Raytracing.Pixel(0, 0, 0));
+			              ? new Drawing.Pixel(255, 255, 255)
+			              : new Drawing.Pixel(0, 0, 0));
 		}
 	}
 
@@ -281,90 +265,6 @@ Raytracing.ViewPoint.prototype.turnRight = function (angle) {
 Raytracing.ViewPoint.FieldOfView = 90; // how many degrees the view point can see
 Raytracing.ViewPoint.DefaultRotationDelta = 10; // how many degrees to turn by
 Raytracing.ViewPoint.DefaultMovementDistance = 10; // how far to move by
-
-
-/*
-  ____             _                  _               ____  _          _                   _        _
- |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  |  _ \(_)_  _____| |  _ __  _ __ ___ | |_ ___ | |_ _   _ _ __   ___
- | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | | |_) | \ \/ / _ \ | | '_ \| '__/ _ \| __/ _ \| __| | | | '_ \ / _ \
- |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_|  __/| |>  <  __/ | | |_) | | | (_) | || (_) | |_| |_| | |_) |  __/
- |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_|   |_/_/\_\___|_| | .__/|_|  \___/ \__\___/ \__|\__, | .__/ \___|
-             |___/                            |___/                       |_|                           |___/|_|
-*/
-Raytracing.Pixel.prototype.getRed = function () { return this.red; }
-Raytracing.Pixel.prototype.setRed = function (red) {
-	return 0 <= red && red <= 255
-		? this.red = Math.round(red)
-		: this.red = NaN;
-}
-
-Raytracing.Pixel.prototype.getGreen = function () { return this.green; }
-Raytracing.Pixel.prototype.setGreen = function (green) {
-	return 0 <= green && green <= 255
-		? this.green = Math.round(green)
-		: this.green = NaN;
-}
-
-Raytracing.Pixel.prototype.getBlue = function () { return this.blue; }
-Raytracing.Pixel.prototype.setBlue = function (blue) {
-	return 0 <= blue && blue <= 255
-		? this.blue = Math.round(blue)
-		: this.blue = NaN;
-}
-
-Raytracing.Pixel.prototype.isPixelOn = function () {
-	return (!isNaN(this.red))   &&
-	       (!isNaN(this.green)) &&
-	       (!isNaN(this.blue));
-}
-
-Raytracing.Pixel.prototype.toHex = function () { return          this.toString("#RGB");          }
-Raytracing.Pixel.prototype.toCSS = function () { return "rgb(" + this.toString("r, g, b") + ")"; }
-Raytracing.Pixel.prototype.toString = function (format) {
-	// format substitutes "r", "g", and "b" to decimal values of the
-	// corresponding color value of the pixel, and substitutes "R", "G",
-	// and "B" for the hexadecimal values of the corresponding color
-	// values. The toHex() and toCSS() methods are wrappers for 
-
-	return typeof format === "string" && format.length && this.isPixelOn()
-		? format.replace(/r/, this.getRed())
-		        .replace(/g/, this.getGreen())
-		        .replace(/b/, this.getBlue())
-		        .replace(/R/, ("0" + this.getRed().toString(16)).substr(-2))
-		        .replace(/G/, ("0" + this.getGreen().toString(16)).substr(-2))
-		        .replace(/B/, ("0" + this.getBlue().toString(16)).substr(-2))
-		: "[object Raytracing.Pixel]";
-}
-
-Raytracing.Pixel.Average = function (xs) { // static method to average a list of pixels
-	if (Array.isArray(xs)) {
-		var r = 0, g = 0, b = 0;
-
-		try {
-			for (var i = 0; i < xs.length; i++) {
-				if (xs[i].isPixelOn && xs[i].isPixelOn()) { // valid pixel, calculate average
-					r += xs[i].getRed();
-					g += xs[i].getGreen();
-					b += xs[i].getBlue();
-				} else { // invalid pixel, cannot average
-					throw "invalid pixel";
-				}
-			}
-
-			r = r / xs.length;
-			g = g / xs.length;
-			b = b / xs.length;			
-		} catch (err) {
-			r = -1;
-			g = -1;
-			b = -1;
-		}
-
-		return new Raytracing.Pixel(r, g, b);
-	} else {
-		return new Raytracing.Pixel();
-	}
-}
 
 
 /*
