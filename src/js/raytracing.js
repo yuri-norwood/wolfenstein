@@ -136,7 +136,7 @@ Raytracing.Space.prototype.drawPoint     = function (x, y, pixels)           {
 
 	// populate the point
 	for (var z = 0; z < this.getHeight(); z++) {
-		this._grid[x][y][z] = pixels[z];
+		this._grid[Math.round(x)][Math.round(y)][z] = pixels[z];
 	}
 }
 Raytracing.Space.prototype.drawLine      = function (x1, y1, x2, y2, pixels) { throw "TODO" }
@@ -538,3 +538,5 @@ Raytracing.Math.radiansToIncline = function (theta) { return Math.tan(theta);   
 
 Raytracing.Math.roundToMax = function (value, max) { return Math.round(value) > Number(max) ? Number(max) : Math.round(value); }
 Raytracing.Math.roundToMin = function (value, min) { return Math.round(value) < Number(min) ? Number(min) : Math.round(value); }
+
+Raytracing.Math.distance = function (x1, y1, x2, y2) { return Math.sqrt(Math.pow(Math.abs(x1 - x2), 2) + Math.pow(Math.abs(y1 - y2), 2)); }
