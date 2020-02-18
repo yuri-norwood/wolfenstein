@@ -10,13 +10,12 @@
 */
 var Raytracing = {}
 
-
 /*
-  ____             _                  _               ____                                             _                   _
- |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  / ___| _ __   __ _  ___ ___    ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __
- | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | \___ \| '_ \ / _` |/ __/ _ \  / __/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
- |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_ ___) | |_) | (_| | (_|  __/ | (_| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |
- |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)____/| .__/ \__,_|\___\___|  \___\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|
+  ____             _                  _               ____                          ____ _
+ |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  / ___| _ __   __ _  ___ ___   / ___| | __ _ ___ ___
+ | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | \___ \| '_ \ / _` |/ __/ _ \ | |   | |/ _` / __/ __|
+ |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_ ___) | |_) | (_| | (_|  __/ | |___| | (_| \__ \__ \
+ |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)____/| .__/ \__,_|\___\___|  \____|_|\__,_|___/___/
              |___/                            |___/        |_|
 */
 Raytracing.Space = function (width, length, height) {
@@ -53,46 +52,6 @@ Raytracing.Space = function (width, length, height) {
 	}
 },
 
-
-/*
-  ____             _                  _           __     ___               ____       _       _                         _                   _
- |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ \ \   / (_) _____      _|  _ \ ___ (_)_ __ | |_    ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __
- | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` \ \ / /| |/ _ \ \ /\ / / |_) / _ \| | '_ \| __|  / __/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
- |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |\ V / | |  __/\ V  V /|  __/ (_) | | | | | |_  | (_| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |
- |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_/  |_|\___| \_/\_/ |_|   \___/|_|_| |_|\__|  \___\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|
-             |___/                            |___/
-*/
-Raytracing.ViewPoint = function (space, x, y, rotation) {
-	// validation
-	if (!space instanceof Raytracing.Space) {
-		throw new TypeError("Raytracing.ViewPoint(): " + space + "is not a Raytracing.Space");
-	}
-	if (isNaN(x)) {
-		throw new TypeError("Raytracing.ViewPoint(): " + x + " is not a number");
-	}
-	if (isNaN(y)) {
-		throw new TypeError("Raytracing.ViewPoint(): " + y + " is not a number");
-	}
-	if (isNaN(rotation)) {
-		throw new TypeError("Raytracing.ViewPoint(): " + rotation + " is not a number");
-	}
-
-	// fields
-	this._space = space;        // the space this point occupies
-	this.setXPos(x);            // x position of point
-	this.setYPos(y);            // y position of point
-	this.setRotation(rotation); // rotation of point
-},
-
-
-/*
-  ____             _                  _               ____                                         _        _
- |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ _  / ___| _ __   __ _  ___ ___   _ __  _ __ ___ | |_ ___ | |_ _   _ _ __   ___
- | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` | \___ \| '_ \ / _` |/ __/ _ \ | '_ \| '__/ _ \| __/ _ \| __| | | | '_ \ / _ \
- |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |_ ___) | |_) | (_| | (_|  __/ | |_) | | | (_) | || (_) | |_| |_| | |_) |  __/
- |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)____/| .__/ \__,_|\___\___| | .__/|_|  \___/ \__\___/ \__|\__, | .__/ \___|
-             |___/                            |___/        |_|                    |_|                           |___/|_|
-*/
 Raytracing.Space.prototype.getWidth = function ()      { return this._width;  }
 Raytracing.Space.prototype.setWidth = function (width) { this._width = width; }
 
@@ -192,13 +151,36 @@ Raytracing.Space.prototype.render = function (width, height, blurDistance) { thr
 
 
 /*
-  ____             _                  _           __     ___               ____       _       _                     _        _
- |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ \ \   / (_) _____      _|  _ \ ___ (_)_ __ | |_   _ __  _ __ ___ | |_ ___ | |_ _   _ _ __   ___
- | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` \ \ / /| |/ _ \ \ /\ / / |_) / _ \| | '_ \| __| | '_ \| '__/ _ \| __/ _ \| __| | | | '_ \ / _ \
- |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |\ V / | |  __/\ V  V /|  __/ (_) | | | | | |_  | |_) | | | (_) | || (_) | |_| |_| | |_) |  __/
- |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_/  |_|\___| \_/\_/ |_|   \___/|_|_| |_|\__| | .__/|_|  \___/ \__\___/ \__|\__, | .__/ \___|
-             |___/                            |___/                                                |_|                           |___/|_|
+  ____             _                  _           __     ___               ____       _       _      ____ _
+ |  _ \ __ _ _   _| |_ _ __ __ _  ___(_)_ __   __ \ \   / (_) _____      _|  _ \ ___ (_)_ __ | |_   / ___| | __ _ ___ ___
+ | |_) / _` | | | | __| '__/ _` |/ __| | '_ \ / _` \ \ / /| |/ _ \ \ /\ / / |_) / _ \| | '_ \| __| | |   | |/ _` / __/ __|
+ |  _ < (_| | |_| | |_| | | (_| | (__| | | | | (_| |\ V / | |  __/\ V  V /|  __/ (_) | | | | | |_  | |___| | (_| \__ \__ \
+ |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)_/  |_|\___| \_/\_/ |_|   \___/|_|_| |_|\__|  \____|_|\__,_|___/___/
+             |___/                            |___/
 */
+Raytracing.ViewPoint = function (space, x, y, rotation) {
+	// validation
+	if (!space instanceof Raytracing.Space) {
+		throw new TypeError("Raytracing.ViewPoint(): " + space + "is not a Raytracing.Space");
+	}
+	if (isNaN(x)) {
+		throw new TypeError("Raytracing.ViewPoint(): " + x + " is not a number");
+	}
+	if (isNaN(y)) {
+		throw new TypeError("Raytracing.ViewPoint(): " + y + " is not a number");
+	}
+	if (isNaN(rotation)) {
+		throw new TypeError("Raytracing.ViewPoint(): " + rotation + " is not a number");
+	}
+
+	// fields
+	this._space = space;        // the space this point occupies
+	this.setXPos(x);            // x position of point
+	this.setYPos(y);            // y position of point
+	this.setRotation(rotation); // rotation of point
+},
+
+
 Raytracing.ViewPoint.prototype.getXPos = function () { return this._x; }
 Raytracing.ViewPoint.prototype.setXPos = function (x) {
 	return 0 <= x && x < this._space.getWidth()
