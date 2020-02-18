@@ -79,4 +79,27 @@ $(window).on("load", function () {
 		                                   Math.round(canvas.getHeight() / canvas.getScale()),
 		                                   canvas.space.map()))
 	}, 1000 / Drawing.Canvas.FramesPerSecond);
+
+	// wire up some keyboard controls
+	$(window).on("keydown", function (event) {
+		var key = event.key.toLowerCase();
+		var alt = event.altKey;
+		var shf = event.shiftKey;
+		var ctl = event.ctrlKey;
+
+		switch (key) {
+			case "w":
+				canvas.space.viewPoint.moveNorth(1);
+				break;
+			case "a":
+				canvas.space.viewPoint.moveWest(1);
+				break;
+			case "s":
+				canvas.space.viewPoint.moveSouth(1);
+				break;
+			case "d":
+				canvas.space.viewPoint.moveEast(1);
+				break;
+		}
+	});
 });

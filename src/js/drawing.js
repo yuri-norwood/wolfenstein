@@ -161,7 +161,7 @@ Drawing.Canvas.prototype.drawFrame = function (frame) {
 	}
 }
 
-Drawing.Canvas.FramesPerSecond = 2;
+Drawing.Canvas.FramesPerSecond = 25;
 
 
 /*
