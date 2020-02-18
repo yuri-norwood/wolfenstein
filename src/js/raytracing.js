@@ -235,10 +235,62 @@ Raytracing.ViewPoint.prototype.distanceTo = function (x, y) { return Math.round(
 
 Raytracing.ViewPoint.prototype.scan = function (angle) { throw new Error("Unimplemented"); }
 
-Raytracing.ViewPoint.prototype.moveNorth = function (distance) { this.setYPos(this.getYPos() - (isNaN(distance) ? Raytracing.ViewPoint.DefaultMovementDistance : distance)); }
-Raytracing.ViewPoint.prototype.moveSouth = function (distance) { this.setYPos(this.getYPos() + (isNaN(distance) ? Raytracing.ViewPoint.DefaultMovementDistance : distance)); }
-Raytracing.ViewPoint.prototype.moveEast  = function (distance) { this.setXPos(this.getXPos() + (isNaN(distance) ? Raytracing.ViewPoint.DefaultMovementDistance : distance)); }
-Raytracing.ViewPoint.prototype.moveWest  = function (distance) { this.setXPos(this.getXPos() - (isNaN(distance) ? Raytracing.ViewPoint.DefaultMovementDistance : distance)); }
+Raytracing.ViewPoint.prototype.moveNorth = function (distance) {
+	var direction = -1;
+	var delta = isNaN(distance)
+		? Raytracing.ViewPoint.DefaultMovementDistance
+		: distance;
+
+	for (var i = 1; i < delta + 1; i++) {
+		if (this._space.arePixelsOn(this.getXPos(), this.getYPos() + (direction * i))) {
+			break;
+		}
+
+		this.setYPos(this.getYPos() + (direction * i));
+	}
+}
+Raytracing.ViewPoint.prototype.moveSouth = function (distance) {
+	var direction = +1;
+	var delta = isNaN(distance)
+		? Raytracing.ViewPoint.DefaultMovementDistance
+		: distance;
+
+	for (var i = 1; i < delta + 1; i++) {
+		if (this._space.arePixelsOn(this.getXPos(), this.getYPos() + (direction * i))) {
+			break;
+		}
+
+		this.setYPos(this.getYPos() + (direction * i));
+	}
+}
+Raytracing.ViewPoint.prototype.moveEast  = function (distance) {
+	var direction = +1;
+	var delta = isNaN(distance)
+		? Raytracing.ViewPoint.DefaultMovementDistance
+		: distance;
+
+	for (var i = 1; i < delta + 1; i++) {
+		if (this._space.arePixelsOn(this.getXPos() + (direction * i), this.getYPos())) {
+			break;
+		}
+
+		this.setXPos(this.getXPos() + (direction * i));
+	}
+}
+Raytracing.ViewPoint.prototype.moveWest  = function (distance) {
+	var direction = -1;
+	var delta = isNaN(distance)
+		? Raytracing.ViewPoint.DefaultMovementDistance
+		: distance;
+
+	for (var i = 1; i < delta + 1; i++) {
+		if (this._space.arePixelsOn(this.getXPos() + (direction * i), this.getYPos())) {
+			break;
+		}
+
+		this.setXPos(this.getXPos() + (direction * i));
+	}
+}
 
 Raytracing.ViewPoint.prototype.moveForwards  = function (distance) { throw new Error("Unimplemented") }
 Raytracing.ViewPoint.prototype.moveBackwards = function (distance) { throw new Error("Unimplemented") }
