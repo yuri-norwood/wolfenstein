@@ -143,6 +143,24 @@ Raytracing.Space.prototype.drawLine      = function (x1, y1, x2, y2, pixels) { t
 Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) { throw "TODO" }
 Raytracing.Space.prototype.drawCircle    = function (x, y, r, pixels)        { throw "TODO" }
 
+Raytracing.Space.prototype.map = function () {
+	var map = [];
+
+	for (var x = 0; x < this.getWidth(); x++) {
+		map.push("\n");
+		for (var y = 0; y < this.getLength(); y++) {
+			map[x] = map[x] + (this.viewPoint.getXPos() == x &&
+			                   this.viewPoint.getYPos() == y
+			                   ? "@"
+			                   : this.arePixelsOn(x, y)
+			                   	? "."
+			                   	: " ");
+		}
+	}
+
+	return map.join("");
+}
+
 Raytracing.Space.prototype.render = function (width, height, blurDistance) {
 	// returns a w by h grid of pixels to draw
 	var screen = [];
