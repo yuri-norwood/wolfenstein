@@ -62,7 +62,7 @@ Raytracing.Space.prototype.getHeight = function ()       { return this._height; 
 Raytracing.Space.prototype.setHeight = function (height) { this._height = height; }
 
 Raytracing.Space.prototype.getPixelsAt = function (x, y) { return 0 <= x && x < this.getWidth() && 0 <= y && y < this.getLength() && this._grid[x][y] ? this._grid[x][y] : []; }
-Raytracing.Space.prototype.arePixelsOn = function (x, y) { return this.getPixelsAt(x, y).length > 0 && this.getPixelsAt(x, y).every(pixel => pixel.isPixelOn()); }
+Raytracing.Space.prototype.arePixelsOn = function (x, y) { return this.getPixelsAt(x, y).length > 0 && this.getPixelsAt(x, y).every(pixel => pixel.isPixelOn());               }
 
 Raytracing.Space.prototype.drawPoint = function (x, y, pixels) {
 	// validate the pixels
