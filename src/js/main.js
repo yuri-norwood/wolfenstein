@@ -120,29 +120,29 @@ $(window).on("load", function () {
 		var ctl = event.ctrlKey;
 
 		switch (key) {
-			case "w":
+			case "arrowup":
 				canvas.space.viewPoint.moveNorth(1);
 				break;
-			case "a":
+			case "arrowleft":
 				canvas.space.viewPoint.moveWest(1);
 				break;
-			case "s":
+			case "arrowdown":
 				canvas.space.viewPoint.moveSouth(1);
 				break;
-			case "d":
+			case "arrowright":
 				canvas.space.viewPoint.moveEast(1);
 				break;
-			case "arrowup":
+			case "w":
 				canvas.space.viewPoint.moveForwards(1);
 				break;
-			case "arrowleft":
-				canvas.space.viewPoint.turnLeft(45);
+			case "a":
+				canvas.space.viewPoint.turnLeft(15);
 				break;
-			case "arrowdown":
+			case "s":
 				canvas.space.viewPoint.moveBackwards(1);
 				break;
-			case "arrowright":
-				canvas.space.viewPoint.turnRight(45);
+			case "d":
+				canvas.space.viewPoint.turnRight(15);
 				break;
 		}
 	});
