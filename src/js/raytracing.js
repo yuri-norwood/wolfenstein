@@ -78,14 +78,12 @@ Raytracing.Space.prototype.drawPoint = function (x, y, pixels) {
 	}
 
 	// populate the point
-	if (x < this.getWidth() && y < this.getLength()) {
+	if (0 <= x && x < this.getWidth() && 0 <= y && y < this.getLength()) {
 		for (var z = 0; z < this.getHeight(); z++) {
 			this._grid[Math.round(x)][Math.round(y)][z] = pixels[z];
 		}
 	}
 }
-
-Raytracing.Space.prototype.drawLine = function (x1, y1, x2, y2, pixels) { throw "TODO" }
 
 Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) {
 	for (var x = x1; x !== x2; x1 <= x2 ? x++ : x--) {
@@ -313,3 +311,4 @@ Raytracing.Math.roundToMax = function (value, max) { return Math.round(value) > 
 Raytracing.Math.roundToMin = function (value, min) { return Math.round(value) < Number(min) ? Number(min) : Math.round(value); }
 
 Raytracing.Math.distance = function (x1, y1, x2, y2) { return Math.sqrt(Math.pow(Math.abs(x1 - x2), 2) + Math.pow(Math.abs(y1 - y2), 2)); }
+Raytracing.Math.incline  = function (x1, y1, x2, y2) { return Math.abs(Number(y1) - Number(y2)) / Math.abs(Number(x1) - Number(x2));      }
