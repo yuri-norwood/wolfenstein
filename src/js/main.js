@@ -89,20 +89,28 @@ $(window).on("load", function () {
 
 		switch (key) {
 			case "w":
-			case "arrowup":
 				canvas.space.viewPoint.moveNorth(1);
 				break;
 			case "a":
-			case "arrowleft":
 				canvas.space.viewPoint.moveWest(1);
 				break;
 			case "s":
-			case "arrowdown":
 				canvas.space.viewPoint.moveSouth(1);
 				break;
 			case "d":
-			case "arrowright":
 				canvas.space.viewPoint.moveEast(1);
+				break;
+			case "arrowup":
+				canvas.space.viewPoint.moveForwards(1);
+				break;
+			case "arrowleft":
+				canvas.space.viewPoint.moveLeft(1);
+				break;
+			case "arrowdown":
+				canvas.space.viewPoint.moveBackwards(1);
+				break;
+			case "arrowright":
+				canvas.space.viewPoint.moveRight(1);
 				break;
 		}
 	});
