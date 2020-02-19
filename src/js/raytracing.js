@@ -121,14 +121,14 @@ Raytracing.Space.prototype.map = function () {
 	var map = [];
 
 	for (var x = 0; x < this.getWidth(); x++) {
-		map.push([]);
+		map.unshift([]);
 		for (var y = 0; y < this.getLength(); y++) {
-			map[x][y] = (Math.round(this.viewPoint.getXPos()) == x &&
-			             Math.round(this.viewPoint.getYPos()) == y
-			             ? new Drawing.Pixel(255, 0, 0)
-			             : this.arePixelsOn(x, y)
-			              ? new Drawing.Pixel(255, 255, 255)
-			              : new Drawing.Pixel(0, 0, 0));
+			map[0].unshift(Math.round(this.viewPoint.getXPos()) == x &&
+			            Math.round(this.viewPoint.getYPos()) == y
+			            ? new Drawing.Pixel(255, 0, 0)
+			            : this.arePixelsOn(x, y)
+			            	? new Drawing.Pixel(255, 255, 255)
+			            	: new Drawing.Pixel(0, 0, 0));
 		}
 	}
 
@@ -208,7 +208,7 @@ Raytracing.ViewPoint.prototype.distanceTo = function (x, y) { return Math.round(
 Raytracing.ViewPoint.prototype.scan = function (angle) { throw new Error("Unimplemented"); }
 
 Raytracing.ViewPoint.prototype.moveNorth = function (distance) {
-	var direction = -1;
+	var direction = +1;
 	var delta = isNaN(distance)
 		? Raytracing.ViewPoint.DefaultMovementDistance
 		: distance;
@@ -222,7 +222,7 @@ Raytracing.ViewPoint.prototype.moveNorth = function (distance) {
 	}
 }
 Raytracing.ViewPoint.prototype.moveSouth = function (distance) {
-	var direction = +1;
+	var direction = -1;
 	var delta = isNaN(distance)
 		? Raytracing.ViewPoint.DefaultMovementDistance
 		: distance;
@@ -236,7 +236,7 @@ Raytracing.ViewPoint.prototype.moveSouth = function (distance) {
 	}
 }
 Raytracing.ViewPoint.prototype.moveEast  = function (distance) {
-	var direction = +1;
+	var direction = -1;
 	var delta = isNaN(distance)
 		? Raytracing.ViewPoint.DefaultMovementDistance
 		: distance;
@@ -250,7 +250,7 @@ Raytracing.ViewPoint.prototype.moveEast  = function (distance) {
 	}
 }
 Raytracing.ViewPoint.prototype.moveWest  = function (distance) {
-	var direction = -1;
+	var direction = +1;
 	var delta = isNaN(distance)
 		? Raytracing.ViewPoint.DefaultMovementDistance
 		: distance;

@@ -42,12 +42,15 @@ $(window).on("load", function () {
 	};
 
 	var updateCompass = function () {
-		var theta = Raytracing.Math.degreesToRadians(canvas.space.viewPoint.getRotation());
-		var x = (canvas.space.viewPoint.getXPos() * canvas.getScale() + canvas.getScale() / 2) + (Math.sin(theta) * canvas.getScale() * 2);
-		var y = (canvas.space.viewPoint.getYPos() * canvas.getScale() + canvas.getScale() / 2) + (Math.cos(theta) * canvas.getScale() * 2);
-		canvas._context.beginPath();
+		canvas.beginPath();
 
 		// point in front of viewPoint
+		var tmp = canvas.space.viewPoint.getRotation();
+		canvas.space.viewPoint.setRotation(tmp + 180);
+		var theta = Raytracing.Math.degreesToRadians(canvas.space.viewPoint.getRotation());
+		canvas.space.viewPoint.setRotation(tmp);
+		var x = canvas.getWidth()  - (canvas.space.viewPoint.getXPos() * canvas.getScale() + canvas.getScale() / 2) + (Math.sin(theta) * canvas.getScale() * 2);
+		var y = canvas.getHeight() - (canvas.space.viewPoint.getYPos() * canvas.getScale() + canvas.getScale() / 2) + (Math.cos(theta) * canvas.getScale() * 2);
 		canvas._context.moveTo(x + (Math.sin(theta) * canvas.getScale()),
 		                       y + (Math.cos(theta) * canvas.getScale()));
 
@@ -67,14 +70,14 @@ $(window).on("load", function () {
 		canvas._context.lineTo((x + (Math.sin(theta) * canvas.getScale())),
 		                       (y + (Math.cos(theta) * canvas.getScale())));
 
-		canvas._context.fill();
+		canvas.fill();
 	}
 
 	// make the outer wrapper fullscreen and responsive
 	makeFullScreen();
 	$(window).on("resize", makeFullScreen);
 
-	canvas = new Drawing.Canvas("#canvas", 8)
+	canvas = new Drawing.Canvas("#canvas", 15)
 
 	var randomSurface = function () {
 		return [
