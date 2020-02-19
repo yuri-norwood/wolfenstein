@@ -135,7 +135,7 @@ Raytracing.Space.prototype.map = function () {
 	return map;
 }
 
-Raytracing.Space.prototype.render = function (width, height, blurDistance) { throw new Error("Unimplemented"); }
+Raytracing.Space.prototype.render = function (width, height) { throw new Error("Unimplemented"); }
 
 
 /*
@@ -271,7 +271,7 @@ Raytracing.ViewPoint.prototype.moveForwards  = function (distance) {
 	var x = this.getXPos();
 	var y = this.getYPos();
 
-	for (var i = 1; i < distance + 1; i++) {
+	for (var i = 0; i < distance + 1; i++) {
 		if (this._space.arePixelsOn(x, y)) {
 			return; // path blocked
 		}
@@ -289,12 +289,12 @@ Raytracing.ViewPoint.prototype.moveBackwards = function (distance) {
 }
 Raytracing.ViewPoint.prototype.moveLeft      = function (distance) {
 	this.turnLeft(90);
-	this.moveForwards(distance + 1);
+	this.moveForwards(distance);
 	this.turnRight(90);
 }
 Raytracing.ViewPoint.prototype.moveRight     = function (distance) {
 	this.turnRight(90);
-	this.moveForwards(distance + 1);
+	this.moveForwards(distance);
 	this.turnLeft(90);
 }
 
