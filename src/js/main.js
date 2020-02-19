@@ -43,8 +43,8 @@ $(window).on("load", function () {
 
 	var updateCompass = function () {
 		var theta = Raytracing.Math.degreesToRadians(canvas.space.viewPoint.getRotation());
-		var x = (canvas.space.viewPoint.getXPos() * canvas.getScale() +  canvas.getScale() / 2) + (Math.sin(theta) * canvas.getScale() * 2);
-		var y = (canvas.space.viewPoint.getYPos() * canvas.getScale() +  canvas.getScale() / 2) + (Math.cos(theta) * canvas.getScale() * 2);
+		var x = (canvas.space.viewPoint.getXPos() * canvas.getScale() + canvas.getScale() / 2) + (Math.sin(theta) * canvas.getScale() * 2);
+		var y = (canvas.space.viewPoint.getYPos() * canvas.getScale() + canvas.getScale() / 2) + (Math.cos(theta) * canvas.getScale() * 2);
 		canvas._context.beginPath();
 
 		// point in front of viewPoint
@@ -133,13 +133,13 @@ $(window).on("load", function () {
 				canvas.space.viewPoint.moveEast(1);
 				break;
 			case "w":
-				canvas.space.viewPoint.moveForwards(1);
+				canvas.space.viewPoint.moveForwards(2);
 				break;
 			case "a":
 				canvas.space.viewPoint.turnLeft(15);
 				break;
 			case "s":
-				canvas.space.viewPoint.moveBackwards(1);
+				canvas.space.viewPoint.moveBackwards(2);
 				break;
 			case "d":
 				canvas.space.viewPoint.turnRight(15);

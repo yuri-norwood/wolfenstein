@@ -187,6 +187,8 @@ Raytracing.ViewPoint.prototype.setYPos = function (y) {
 			: 0;
 }
 
+Raytracing.ViewPoint.prototype.moveTo = function (x, y) { this.setXPos(x); this.setYPos(y); }
+
 Raytracing.ViewPoint.prototype.getRotation = function () { return this._rotation; }
 Raytracing.ViewPoint.prototype.setRotation = function (rotation) {
 	if (0 <= rotation && rotation <= 359) {
@@ -263,16 +265,38 @@ Raytracing.ViewPoint.prototype.moveWest  = function (distance) {
 }
 
 Raytracing.ViewPoint.prototype.moveForwards  = function (distance) {
-	var theta = Raytracing.Math.degreesToRadians(this.getRotation());
-	var x = Math.round(Math.cos(theta) * distance);
-	var y = Math.round(Math.sin(theta) * distance);
+	var theta  = Raytracing.Math.degreesToRadians(this.getRotation());
+	var xDelta = Math.round(Math.sin(theta));
+	var yDelta = Math.round(Math.cos(theta));
+	var x = this.getXPos();
+	var y = this.getYPos();
 
-	x >= 0 ? this.moveEast(x)  : this.moveWest(x);
-	y >= 0 ? this.moveNorth(y) : this.moveSouth(y);
+	for (var i = 1; i < distance + 1; i++) {
+		if (this._space.arePixelsOn(x, y)) {
+			return; // path blocked
+		}
+
+		this.moveTo(x, y);
+
+		x += xDelta;
+		y += yDelta;
+	}
 }
-Raytracing.ViewPoint.prototype.moveBackwards = function (distance) { throw new Error("Unimplemented") }
-Raytracing.ViewPoint.prototype.moveLeft      = function (distance) { throw new Error("Unimplemented") }
-Raytracing.ViewPoint.prototype.moveRight     = function (distance) { throw new Error("Unimplemented") }
+Raytracing.ViewPoint.prototype.moveBackwards = function (distance) {
+	this.turnLeft(180);
+	this.moveForwards(distance);
+	this.turnLeft(180);
+}
+Raytracing.ViewPoint.prototype.moveLeft      = function (distance) {
+	this.turnLeft(90);
+	this.moveForwards(distance + 1);
+	this.turnRight(90);
+}
+Raytracing.ViewPoint.prototype.moveRight     = function (distance) {
+	this.turnRight(90);
+	this.moveForwards(distance + 1);
+	this.turnLeft(90);
+}
 
 Raytracing.ViewPoint.prototype.turnLeft  = function (angle) {
 	this.setRotation( // set new rotation...
