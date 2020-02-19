@@ -133,16 +133,16 @@ $(window).on("load", function () {
 				canvas.space.viewPoint.moveEast(1);
 				break;
 			case "w":
-				canvas.space.viewPoint.moveForwards(2);
+				canvas.space.viewPoint.moveForwards(1);
 				break;
 			case "a":
-				canvas.space.viewPoint.turnLeft(15);
+				canvas.space.viewPoint.turnLeft(45);
 				break;
 			case "s":
-				canvas.space.viewPoint.moveBackwards(2);
+				canvas.space.viewPoint.moveBackwards(1);
 				break;
 			case "d":
-				canvas.space.viewPoint.turnRight(15);
+				canvas.space.viewPoint.turnRight(45);
 				break;
 		}
 	});
