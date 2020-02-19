@@ -262,7 +262,14 @@ Raytracing.ViewPoint.prototype.moveWest  = function (distance) {
 	}
 }
 
-Raytracing.ViewPoint.prototype.moveForwards  = function (distance) { throw new Error("Unimplemented") }
+Raytracing.ViewPoint.prototype.moveForwards  = function (distance) {
+	var theta = Raytracing.Math.degreesToRadians(this.getRotation());
+	var x = Math.round(Math.cos(theta) * distance);
+	var y = Math.round(Math.sin(theta) * distance);
+
+	x >= 0 ? this.moveEast(x)  : this.moveWest(x);
+	y >= 0 ? this.moveNorth(y) : this.moveSouth(y);
+}
 Raytracing.ViewPoint.prototype.moveBackwards = function (distance) { throw new Error("Unimplemented") }
 Raytracing.ViewPoint.prototype.moveLeft      = function (distance) { throw new Error("Unimplemented") }
 Raytracing.ViewPoint.prototype.moveRight     = function (distance) { throw new Error("Unimplemented") }

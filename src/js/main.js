@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ____ _       _           _
  / ___| | ___ | |__   __ _| |___
@@ -39,6 +41,35 @@ $(window).on("load", function () {
 			.height($(window).height());
 	};
 
+	var updateCompass = function () {
+		var theta = Raytracing.Math.degreesToRadians(canvas.space.viewPoint.getRotation());
+		var x = (canvas.space.viewPoint.getXPos() * canvas.getScale() +  canvas.getScale() / 2) + (Math.sin(theta) * canvas.getScale() * 2);
+		var y = (canvas.space.viewPoint.getYPos() * canvas.getScale() +  canvas.getScale() / 2) + (Math.cos(theta) * canvas.getScale() * 2);
+		canvas._context.beginPath();
+
+		// point in front of viewPoint
+		canvas._context.moveTo(x + (Math.sin(theta) * canvas.getScale()),
+		                       y + (Math.cos(theta) * canvas.getScale()));
+
+		// point to left of viewPoint
+		var tmp = canvas.space.viewPoint.getRotation();
+		canvas.space.viewPoint.setRotation(tmp + 90);
+		var theta = Raytracing.Math.degreesToRadians(canvas.space.viewPoint.getRotation());
+		canvas.space.viewPoint.setRotation(tmp);
+		canvas._context.lineTo((x + (Math.sin(theta) * canvas.getScale())),
+		                       (y + (Math.cos(theta) * canvas.getScale())));
+
+		// point to right of viewPoint
+		var tmp = canvas.space.viewPoint.getRotation();
+		canvas.space.viewPoint.setRotation(tmp - 90);
+		var theta = Raytracing.Math.degreesToRadians(canvas.space.viewPoint.getRotation());
+		canvas.space.viewPoint.setRotation(tmp);
+		canvas._context.lineTo((x + (Math.sin(theta) * canvas.getScale())),
+		                       (y + (Math.cos(theta) * canvas.getScale())));
+
+		canvas._context.fill();
+	}
+
 	// make the outer wrapper fullscreen and responsive
 	makeFullScreen();
 	$(window).on("resize", makeFullScreen);
@@ -78,6 +109,7 @@ $(window).on("load", function () {
 		canvas.drawFrame(new Drawing.Frame(Math.round(canvas.getWidth() / canvas.getScale()),
 		                                   Math.round(canvas.getHeight() / canvas.getScale()),
 		                                   canvas.space.map()))
+		updateCompass();
 	}, 1000 / Drawing.Canvas.FramesPerSecond);
 
 	// wire up some keyboard controls
@@ -104,13 +136,13 @@ $(window).on("load", function () {
 				canvas.space.viewPoint.moveForwards(1);
 				break;
 			case "arrowleft":
-				canvas.space.viewPoint.moveLeft(1);
+				canvas.space.viewPoint.turnLeft(45);
 				break;
 			case "arrowdown":
 				canvas.space.viewPoint.moveBackwards(1);
 				break;
 			case "arrowright":
-				canvas.space.viewPoint.moveRight(1);
+				canvas.space.viewPoint.turnRight(45);
 				break;
 		}
 	});
