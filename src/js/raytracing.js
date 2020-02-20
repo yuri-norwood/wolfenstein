@@ -162,21 +162,21 @@ Raytracing.Space.prototype.render = function (width, height) {
 	var startingAngle = this.viewPoint.getRotation() - Raytracing.ViewPoint.FieldOfView / 2;
 
 	for (var x = 0; x < width; x++) {
-		grid.push([]);
+		grid.unshift([]);
 
 		var scanline = this.viewPoint.scan(startingAngle + (anglePerPixel * x));
 
 		for (var y = 0; y < height * (1 / scanline.distance * perspective); y++) {
 			if (scanline.distance > blurDistance) {
-				grid[x].push(new Drawing.Pixel(0, 0, 0)); // too far away
+				grid[0].push(new Drawing.Pixel(0, 0, 0)); // too far away
 			} else {
-				grid[x].push(scanline.pixel);
+				grid[0].push(scanline.pixel);
 			}
 		}
 
 		// add empty pixels to grid column until column full
-		while (grid[x].length < height) {
-				grid[x].push(new Drawing.Pixel(0, 0, 0));
+		while (grid[0].length < height) {
+				grid[0].push(new Drawing.Pixel(0, 0, 0));
 		}
 	}
 
