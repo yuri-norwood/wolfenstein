@@ -51,8 +51,8 @@ $(window).on("load", function () {
 		canvas.space.viewPoint.setRotation(tmp);
 		var x = canvas.getWidth()  - (canvas.space.viewPoint.getXPos() * canvas.getScale() + canvas.getScale() / 2) + (Math.sin(theta) * canvas.getScale() * 2);
 		var y = canvas.getHeight() - (canvas.space.viewPoint.getYPos() * canvas.getScale() + canvas.getScale() / 2) + (Math.cos(theta) * canvas.getScale() * 2);
-		canvas._context.moveTo(x + (Math.sin(theta) * canvas.getScale()),
-		                       y + (Math.cos(theta) * canvas.getScale()));
+		canvas._context.moveTo((x + (Math.sin(theta) * canvas.getScale())),
+		                       (y + (Math.cos(theta) * canvas.getScale())));
 
 		// point to left of viewPoint
 		var tmp = canvas.space.viewPoint.getRotation();
@@ -77,7 +77,7 @@ $(window).on("load", function () {
 	makeFullScreen();
 	$(window).on("resize", makeFullScreen);
 
-	canvas = new Drawing.Canvas("#canvas", 15)
+	canvas = new Drawing.Canvas("#canvas", 8)
 
 	var randomSurface = function () {
 		return [
