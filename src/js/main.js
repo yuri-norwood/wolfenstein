@@ -150,28 +150,28 @@ $(window).on("load", function () {
 
 		switch (key) {
 			case "arrowup":
-				canvas.space.viewPoint.moveForwards(1);
+				canvas.space.viewPoint.moveForwards(1); // tiptoe
 				break;
 			case "arrowleft":
-				canvas.space.viewPoint.moveLeft(1);
+				canvas.space.viewPoint.turnLeft(1); // turn
 				break;
 			case "arrowdown":
-				canvas.space.viewPoint.moveBackwards(1);
+				canvas.space.viewPoint.moveBackwards(1); // tiptoe
 				break;
 			case "arrowright":
-				canvas.space.viewPoint.moveRight(1);
+				canvas.space.viewPoint.turnRight(1); // turn
 				break;
 			case "w":
 				canvas.space.viewPoint.moveForwards(5); // running
 				break;
 			case "a":
-				canvas.space.viewPoint.turnLeft(15);
+				canvas.space.viewPoint.moveLeft(5); // running
 				break;
 			case "s":
 				canvas.space.viewPoint.moveBackwards(5); // running
 				break;
 			case "d":
-				canvas.space.viewPoint.turnRight(15);
+				canvas.space.viewPoint.moveRight(5); // running
 				break;
 		}
 	});
