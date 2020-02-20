@@ -35,8 +35,6 @@ __     __    _     _   __  __       _          __                    __
                                               \_\         |___/      /_/
 */
 $(window).on("load", function () {
-	var showMap = false;
-
 	var makeFullScreen = function () {
 		$("#outter")
 			.width($(window).width())
@@ -44,7 +42,7 @@ $(window).on("load", function () {
 	};
 
 	var updateCompass = function () {
-		if (!showMap) {
+		if (!$("body").data("show-map")) {
 			return;
 		}
 
@@ -100,7 +98,22 @@ $(window).on("load", function () {
 
 	canvas = new Drawing.Canvas("#canvas", 5)
 
-	// draw the space border
+	// draw some rectangles
+	canvas.space.drawRectangle(5, 25, 9, 72, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(15, 75, 19, 92, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(25, 15, 29, 48, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(95, 5, 36, 43, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(95, 75, 56, 93, Drawing.Colors.Grey);
+
+	// draw a room with a hidden door
+	canvas.space.drawRectangle(100, 150, 600, 700, Drawing.Colors.Blue);
+	canvas.space.drawRectangle(110, 160, 130, 161, Drawing.Colors.Blue);
+	canvas.space.drawRectangle(110, 150, 130, 151, new Drawing.Pixel());
+
+	// draw some circles
+	canvas.space.drawCircle(30, 70, 10, Drawing.Colors.Green);
+
+	// draw the space border (last)
 	for (var x = 0; x < canvas.space.getWidth(); x++) {
 		for (var y = 0; y < canvas.space.getLength(); y++) {
 			if (y <= 1                            ||
@@ -113,18 +126,8 @@ $(window).on("load", function () {
 	 	}
 	}
 
-	// draw some rectangles
-	canvas.space.drawRectangle(5, 25, 9, 72, Drawing.Colors.Grey);
-	canvas.space.drawRectangle(15, 75, 19, 92, Drawing.Colors.Grey);
-	canvas.space.drawRectangle(25, 15, 29, 48, Drawing.Colors.Grey);
-	canvas.space.drawRectangle(95, 5, 36, 43, Drawing.Colors.Grey);
-	canvas.space.drawRectangle(95, 75, 56, 93, Drawing.Colors.Grey);
-
-	// draw some circles
-	canvas.space.drawCircle(30, 70, 10, Drawing.Colors.Green);
-
 	setInterval(function () {
-		if (showMap) {
+		if ($("body").data("show-map")) {
 			canvas.drawFrame(canvas.map());
 		} else {
 			canvas.drawFrame(canvas.render());

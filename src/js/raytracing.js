@@ -95,10 +95,6 @@ Raytracing.Space.prototype.drawPoint = function (x, y, pixel) {
 		throw new TypeError(errorMessage + "pixel is not a Drawing.Pixel");
 	}
 
-	if (!pixel.isPixelOn()) {
-		throw new TypeError(errorMessage + "pixel is not turned on");
-	}
-
 	this._grid[Math.round(x)][Math.round(y)] = pixel;
 }
 
