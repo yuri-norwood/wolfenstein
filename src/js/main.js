@@ -121,9 +121,9 @@ $(window).on("load", function () {
 
 	setInterval(function () {
 		if (showMap) {
-			canvas.drawFrame(new Drawing.Frame(Math.round(canvas.getWidth() / canvas.getScale()), Math.round(canvas.getHeight() / canvas.getScale()), canvas.space.map()));
+			canvas.drawFrame(canvas.map());
 		} else {
-			canvas.drawFrame(canvas.space.render(canvas.getWidth(), canvas.getHeight()));
+			canvas.drawFrame(canvas.render());
 		}
 
 		updateCompass();

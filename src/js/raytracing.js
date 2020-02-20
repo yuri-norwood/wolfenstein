@@ -134,7 +134,7 @@ Raytracing.Space.prototype.drawCircle = function (x, y, r, pixel) {
 	}
 }
 
-Raytracing.Space.prototype.map = function () {
+Raytracing.Space.prototype.map = function (width, height) {
 	var map = [];
 
 	for (var x = 0; x < this.getWidth(); x++) {
@@ -149,7 +149,7 @@ Raytracing.Space.prototype.map = function () {
 		}
 	}
 
-	return map;
+	return new Drawing.Frame(width, height, map);
 }
 
 Raytracing.Space.prototype.render = function (width, height) {
