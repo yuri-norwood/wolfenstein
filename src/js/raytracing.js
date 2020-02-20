@@ -154,6 +154,8 @@ Raytracing.Space.prototype.map = function () {
 
 Raytracing.Space.prototype.render = function (width, height) {
 	var grid = [];
+	var blurDistance = 50;
+	var perspective = 2;
 
 	// calculate the angle in degrees of each horizontal pixel
 	var anglePerPixel = Raytracing.ViewPoint.FieldOfView / width;
@@ -161,8 +163,20 @@ Raytracing.Space.prototype.render = function (width, height) {
 
 	for (var x = 0; x < width; x++) {
 		grid.push([]);
-		for (var y = 0; y < height; y++) {
-			grid[x].push(this.viewPoint.scan(startingAngle + (anglePerPixel * x)).pixel);
+
+		var scanline = this.viewPoint.scan(startingAngle + (anglePerPixel * x));
+
+		for (var y = 0; y < height * (1 / scanline.distance * perspective); y++) {
+			if (scanline.distance > blurDistance) {
+				grid[x].push(new Drawing.Pixel(0, 0, 0)); // too far away
+			} else {
+				grid[x].push(scanline.pixel);
+			}
+		}
+
+		// add empty pixels to grid column until column full
+		while (grid[x].length < height) {
+				grid[x].push(new Drawing.Pixel(0, 0, 0));
 		}
 	}
 
