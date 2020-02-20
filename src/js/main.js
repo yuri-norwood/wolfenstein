@@ -141,6 +141,26 @@ $(window).on("load", function () {
 		$("body").data("show-map", !$("body").data("show-map"));
 	});
 
+	$("input[name=field-of-view]").val(Raytracing.ViewPoint.FieldOfView);
+	$("input[name=field-of-view]").on("change", function (event) {
+		Raytracing.ViewPoint.FieldOfView = $(this).val();
+	});
+
+	$("input[name=vanishing-distance]").val(Raytracing.ViewPoint.VanishingDistance);
+	$("input[name=vanishing-distance]").on("change", function (event) {
+		Raytracing.ViewPoint.VanishingDistance = $(this).val();
+	});
+
+	$("input[name=default-rotation-delta]").val(Raytracing.ViewPoint.DefaultRotationDelta);
+	$("input[name=default-rotation-delta]").on("change", function (event) {
+		Raytracing.ViewPoint.DefaultRotationDelta = $(this).val();
+	});
+
+	$("input[name=default-movement-distance]").val(Raytracing.ViewPoint.DefaultMovementDistance);
+	$("input[name=default-movement-distance]").on("change", function (event) {
+		Raytracing.ViewPoint.DefaultMovementDistance = $(this).val();
+	});
+
 	// wire up some keyboard controls
 	$(window).on("keydown", function (event) {
 		var key = event.key.toLowerCase();

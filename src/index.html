@@ -20,10 +20,46 @@
 		</section>
 		<section id="controls">
 			<aside id="description">
-				Press "Toggle Map" to switch between map and first person view
+				TIP: Press "Toggle Map" to switch between map and first person view
 			</aside>
 			<article>
-				<input type="button" name="toggle-map" text="Toggle Map" value="Toggle Map">
+				<table>
+					<tr>
+						<td class="description">
+							Toggle Map
+						</td>
+						<td class="control">
+							<input type="button" name="toggle-map" text="Toggle Map" value="Toggle Map">
+						</td>
+					<tr>
+						<td class="description">
+							How many degrees the view point can see
+						</td>
+						<td class="control">
+							<input type="range" name="field-of-view" min="1" max="180" text="how many degrees the view point can see">
+						</td>
+					<tr>
+						<td class="description">
+							How far away things disappear at
+						</td>
+						<td class="control">
+							<input type="range" name="vanishing-distance" min="1" max="500" text="how far away things disappear at">
+						</td>
+					<tr>
+						<td class="description">
+							How many degrees to turn by
+						</td>
+						<td class="control">
+							<input type="range" name="default-rotation-delta" min="1" max="90" text="how many degrees to turn by">
+						</td>
+					<tr>
+						<td class="description">
+							How far to move by
+						</td>
+						<td class="control">
+							<input type="range" name="default-movement-distance" min="1" max="90" text="how far to move by">
+						</td>
+				</table>
 			</article>
 		</section>
 	</div>
