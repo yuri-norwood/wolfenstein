@@ -162,11 +162,16 @@ Raytracing.Space.prototype.render = function (width, height) {
 	for (var x = 0; x < width; x++) {
 		grid.unshift([]);
 
-		var scanline      = this.viewPoint.scan(startingAngle + (anglePerPixel * x));
-		var pixel         = scanline.pixel;
-		var distance      = scanline.distance;
-		var incline       = Raytracing.Math.degreesToIncline(Raytracing.ViewPoint.FieldOfView / 2);
-		var surfaceHeight = incline * distance * 2;
+		// scan from the view point
+		var scanline = this.viewPoint.scan(startingAngle + (anglePerPixel * x));
+		var pixel    = scanline.pixel;
+		var distance = scanline.distance;
+
+		// calculate scaling due to distance
+		var viewAngle     = Raytracing.ViewPoint.FieldOfView / 2;
+		var viewTheta     = Raytracing.Math.degreesToRadians(viewAngle);
+		var opposite      = Math.tan(viewTheta) * (Raytracing.ViewPoint.VanishingDistance - distance);
+		var surfaceHeight = 2 * opposite;
 		var padding       = (height - surfaceHeight) / 2;
 
 		for (var y = 0; y < padding; y++) {
@@ -391,6 +396,7 @@ Raytracing.ViewPoint.prototype.turnRight = function (angle) {
 }
 
 Raytracing.ViewPoint.FieldOfView = 90; // how many degrees the view point can see
+Raytracing.ViewPoint.VanishingDistance = 50; // how far away things disappear at
 Raytracing.ViewPoint.DefaultRotationDelta = 10; // how many degrees to turn by
 Raytracing.ViewPoint.DefaultMovementDistance = 10; // how far to move by
 
