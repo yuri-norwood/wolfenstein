@@ -170,6 +170,9 @@ Raytracing.Space.prototype.render = function (width, height) {
 		var surfaceHeight = 2 * opposite;
 		var padding       = (height - surfaceHeight) / 2;
 
+		// scale the colors based on distance
+		pixel = Drawing.Pixel.CreateShaded(pixel, -(distance / Raytracing.ViewPoint.VanishingDistance * 100));
+
 		for (var y = 0; y < padding; y++) {
 			grid[0].push(new Drawing.Pixel(0, 0, 0));
 		}
