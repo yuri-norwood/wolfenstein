@@ -220,9 +220,34 @@ Raytracing.ViewPoint.prototype.setRotation = function (rotation) {
 	}
 }
 
-Raytracing.ViewPoint.prototype.distanceTo = function (x, y) { return Math.round(Raytracing.Math.distance(this.getXPos(), this.getYPos(), x, y)); }
+Raytracing.ViewPoint.prototype.distanceTo = function (x, y) {
+	return Math.round(Raytracing.Math.distance(this.getXPos(),
+	                                           this.getYPos(),
+	                                           x,
+	                                           y));
+}
 
-Raytracing.ViewPoint.prototype.scan = function (angle) { throw new Error("Unimplemented"); }
+Raytracing.ViewPoint.prototype.scan = function (angle) {
+	var theta = Raytracing.Math.degreesToRadians(angle);
+	var xDelta = Math.sin(theta);
+	var yDelta = Math.cos(theta);
+	var x = this.getXPos();
+	var y = this.getYPos();
+
+	while (0 <= x && x < this._space.getWidth() && 0 <= y && y < this._space.getLength()) {
+		if (this._space.isPixelOn(x, y)) {
+			break;
+		}
+
+		x += xDelta;
+		y += yDelta;
+	}
+
+	return {
+		pixel : this._space.getPixelAt(x, y),
+		distance : this.distanceTo(x, y)
+	}
+}
 
 Raytracing.ViewPoint.prototype.moveNorth = function (distance) {
 	var direction = +1;
@@ -349,8 +374,8 @@ Raytracing.ViewPoint.DefaultMovementDistance = 10; // how far to move by
 */
 Raytracing.Math = {}
 
-Raytracing.Math.radiansToDegrees = function (theta) { return theta * 180/Math.PI; }
-Raytracing.Math.degreesToRadians = function (theta) { return theta * Math.PI/180; }
+Raytracing.Math.radiansToDegrees = function (theta) { return (theta * 180/Math.PI) % (Math.PI * 2); }
+Raytracing.Math.degreesToRadians = function (theta) { return (theta * Math.PI/180) % (Math.PI * 2); }
 
 Raytracing.Math.degreesToIncline = function (theta) { return Math.tan(Raytracing.Math.degreesToRadians(theta)); }
 Raytracing.Math.radiansToIncline = function (theta) { return Math.tan(theta);                                   }
