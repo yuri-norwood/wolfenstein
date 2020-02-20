@@ -396,7 +396,7 @@ Raytracing.ViewPoint.prototype.turnRight = function (angle) {
 }
 
 Raytracing.ViewPoint.FieldOfView = 50; // how many degrees the view point can see
-Raytracing.ViewPoint.VanishingDistance = 200; // how far away things disappear at
+Raytracing.ViewPoint.VanishingDistance = 100; // how far away things disappear at
 Raytracing.ViewPoint.DefaultRotationDelta = 10; // how many degrees to turn by
 Raytracing.ViewPoint.DefaultMovementDistance = 10; // how far to move by
 
