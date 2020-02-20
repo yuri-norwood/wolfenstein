@@ -152,7 +152,22 @@ Raytracing.Space.prototype.map = function () {
 	return map;
 }
 
-Raytracing.Space.prototype.render = function (width, height) { throw new Error("Unimplemented"); }
+Raytracing.Space.prototype.render = function (width, height) {
+	var grid = [];
+
+	// calculate the angle in degrees of each horizontal pixel
+	var anglePerPixel = Raytracing.ViewPoint.FieldOfView / width;
+	var startingAngle = this.viewPoint.getRotation() - Raytracing.ViewPoint.FieldOfView / 2;
+
+	for (var x = 0; x < width; x++) {
+		grid.push([]);
+		for (var y = 0; y < height; y++) {
+			grid[x].push(this.viewPoint.scan(startingAngle + (anglePerPixel * x)).pixel);
+		}
+	}
+
+	return new Drawing.Frame(width, height, grid);
+}
 
 
 /*
@@ -244,7 +259,7 @@ Raytracing.ViewPoint.prototype.scan = function (angle) {
 	}
 
 	return {
-		pixel : this._space.getPixelAt(x, y),
+		pixel    : this._space.getPixelAt(x, y),
 		distance : this.distanceTo(x, y)
 	}
 }

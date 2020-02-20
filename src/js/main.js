@@ -114,9 +114,7 @@ $(window).on("load", function () {
 	canvas.space.drawCircle(30, 70, 10, randomPixel());
 
 	setInterval(function () {
-		canvas.drawFrame(new Drawing.Frame(Math.round(canvas.getWidth() / canvas.getScale()),
-		                                   Math.round(canvas.getHeight() / canvas.getScale()),
-		                                   canvas.space.map()))
+		canvas.drawFrame(canvas.space.render(canvas.getWidth(), canvas.getHeight()));
 		updateCompass();
 	}, 1000 / Drawing.Canvas.FramesPerSecond);
 
