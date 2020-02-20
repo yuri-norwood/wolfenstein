@@ -138,11 +138,12 @@ Drawing.Canvas.prototype.getWidth  = function () { return this._width;  }
 Drawing.Canvas.prototype.getHeight = function () { return this._height; }
 Drawing.Canvas.prototype.getScale  = function () { return this._scale;  }
 
-Drawing.Canvas.prototype.beginPath = function () { this._context.beginPath(); }
-Drawing.Canvas.prototype.rectangle = function (x, y, w, h) { this._context.rect(x, y, w, h); }
-Drawing.Canvas.prototype.fillStyle = function (style) { this._context.fillStyle = style; }
-Drawing.Canvas.prototype.fill      = function () { this._context.fill(); }
-Drawing.Canvas.prototype.stroke    = function () { this._context.stroke(); }
+Drawing.Canvas.prototype.beginPath   = function () { this._context.beginPath(); }
+Drawing.Canvas.prototype.rectangle   = function (x, y, w, h) { this._context.rect(x, y, w, h); }
+Drawing.Canvas.prototype.fillStyle   = function (style) { this._context.fillStyle = style; }
+Drawing.Canvas.prototype.strokeStyle = function (style) { this._context.strokeStyle = style; }
+Drawing.Canvas.prototype.fill        = function () { this._context.fill(); }
+Drawing.Canvas.prototype.stroke      = function () { this._context.stroke(); }
 
 Drawing.Canvas.prototype.drawPixel = function (x, y, pixel) {
 	this.beginPath();
@@ -151,6 +152,7 @@ Drawing.Canvas.prototype.drawPixel = function (x, y, pixel) {
 	               this.getScale(),
 	               this.getScale());
 	this.fillStyle(pixel.toCSS());
+	this.strokeStyle(pixel.toCSS());
 	this.fill();
 	this.stroke();
 }
