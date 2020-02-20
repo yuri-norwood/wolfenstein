@@ -18,22 +18,18 @@ var Raytracing = {}
  |_| \_\__,_|\__, |\__|_|  \__,_|\___|_|_| |_|\__, (_)____/| .__/ \__,_|\___\___|  \____|_|\__,_|___/___/
              |___/                            |___/        |_|
 */
-Raytracing.Space = function (width, length, height) {
+Raytracing.Space = function (width, length) {
 	// validation
-	if (isNaN(width)) {
+	if (isNaN(width) || width < 0) {
 		throw new TypeError("Raytracing.Space(): width passed as " + width);
 	}
-	if (isNaN(length)) {
+	if (isNaN(length) || length < 0) {
 		throw new TypeError("Raytracing.Space(): length passed as " + length);
-	}
-	if (isNaN(height)) {
-		throw new TypeError("Raytracing.Space(): height passed as " + height);
 	}
 
 	// fields
 	this.setWidth(width);
 	this.setLength(length);
-	this.setHeight(height);
 	this.viewPoint = new Raytracing.ViewPoint(this,
 	                                          Math.floor(this._width / 2),
 	                                          Math.floor(this._length / 2),
@@ -42,11 +38,7 @@ Raytracing.Space = function (width, length, height) {
 	for (var x = 0; x < width; x++) {
 		var col = []; // column to add
 		for (var y = 0; y < length; y++) {
-			var row = []; // row to add
-			for (var z = 0; z < height; z++) {
-				row.push(new Drawing.Pixel());
-			}
-			col.push(row);
+			col.push(new Drawing.Pixel());
 		}
 		this._grid.push(col);
 	}
@@ -58,34 +50,59 @@ Raytracing.Space.prototype.setWidth = function (width) { this._width = width; }
 Raytracing.Space.prototype.getLength = function ()       { return this._length;   }
 Raytracing.Space.prototype.setLength = function (length) { this._length = length; }
 
-Raytracing.Space.prototype.getHeight = function ()       { return this._height;   }
-Raytracing.Space.prototype.setHeight = function (height) { this._height = height; }
-
-Raytracing.Space.prototype.getPixelsAt = function (x, y) { return 0 <= x && x < this.getWidth() && 0 <= y && y < this.getLength() && this._grid[x][y] ? this._grid[x][y] : []; }
-Raytracing.Space.prototype.arePixelsOn = function (x, y) { return this.getPixelsAt(x, y).length > 0 && this.getPixelsAt(x, y).every(pixel => pixel.isPixelOn());               }
-
-Raytracing.Space.prototype.drawPoint = function (x, y, pixels) {
-	// validate the pixels
-	if (pixels.length <= 0 || !pixels.every(pixel => pixel instanceof Drawing.Pixel && pixel.isPixelOn())
-	) {
-		throw new TypeError("Raytracing.Space.drawPoint(" + x + ", " + y + ", " + pixels + "): not all pixels in (" + pixels + ") are valid Drawing.Pixel instances");
-	}
-
-	// pad the pixels to ensure there are enough
-	var i = 0;
-	while (pixels.length < this.getHeight()) {
-		pixels.push(pixels[i++]);
-	}
-
-	// populate the point
-	if (0 <= x && x < this.getWidth() && 0 <= y && y < this.getLength()) {
-		for (var z = 0; z < this.getHeight(); z++) {
-			this._grid[Math.round(x)][Math.round(y)][z] = pixels[z];
-		}
-	}
+Raytracing.Space.prototype.getPixelAt = function (x, y) {
+	return x <  this.getWidth()                    &&
+	       y <  this.getLength()                   &&
+	       0 <= x                                  &&
+	       0 <= y                                  &&
+	       typeof this._grid[x][y] !== "undefined"
+		? this._grid[x][y]
+		: new Drawing.Pixel();
 }
 
-Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) {
+Raytracing.Space.prototype.isPixelOn = function (x, y) {
+	return this.getPixelAt(x, y)
+		.isPixelOn();
+}
+
+Raytracing.Space.prototype.drawPoint = function (x, y, pixel) {
+	// validate the pixel
+	var errorMessage = "Raytracing.Space.drawPoint(" + x     + ", "  +
+	                                                   y     + ", "  +
+	                                                   pixel + "): " ;
+
+	if (isNaN(x)) {
+		throw new TypeError(errorMessage + "x is not a Number");
+	}
+
+	if (x < 0 || x >= this.getWidth()) {
+		return; // x is out of bounds
+	}
+
+	if (isNaN(y)) {
+		throw new TypeError(errorMessage + "y is not a Number");
+	}
+
+	if (y < 0 || y >= this.getLength()) {
+		return; // y is out of bounds
+	}
+
+	if (typeof pixel === "undefined") {
+		throw new TypeError(errorMessage + "pixel is undefined");
+	}
+
+	if (!(pixel instanceof Drawing.Pixel)) {
+		throw new TypeError(errorMessage + "pixel is not a Drawing.Pixel");
+	}
+
+	if (!pixel.isPixelOn()) {
+		throw new TypeError(errorMessage + "pixel is not turned on");
+	}
+
+	this._grid[Math.round(x)][Math.round(y)] = pixel;
+}
+
+Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixel) {
 	for (var x = x1; x !== x2; x1 <= x2 ? x++ : x--) {
 		for (var y = y1; y !== y2; y1 <= y2 ? y++ : y--) {
 			if (x === x1 ||
@@ -93,13 +110,13 @@ Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixels) {
 			    y === y1 ||
 			    y === y2 + (y1 <= y2 ? -1 : +1)
 			) {
-				this.drawPoint(x, y, pixels);
+				this.drawPoint(x, y, pixel);
 			}
 		}
 	}
 }
 
-Raytracing.Space.prototype.drawCircle = function (x, y, r, pixels) {
+Raytracing.Space.prototype.drawCircle = function (x, y, r, pixel) {
 	var r = Math.abs(r);
 	var tolerance = 0.5;
 
@@ -112,7 +129,7 @@ Raytracing.Space.prototype.drawCircle = function (x, y, r, pixels) {
 				continue;
 			}
 
-			this.drawPoint(i, j, pixels);
+			this.drawPoint(i, j, pixel);
 		}
 	}
 }
@@ -126,8 +143,8 @@ Raytracing.Space.prototype.map = function () {
 			map[0].unshift(Math.round(this.viewPoint.getXPos()) == x &&
 			            Math.round(this.viewPoint.getYPos()) == y
 			            ? new Drawing.Pixel(255, 0, 0)
-			            : this.arePixelsOn(x, y)
-			            	? new Drawing.Pixel(255, 255, 255)
+			            : this.isPixelOn(x, y)
+			            	? this.getPixelAt(x, y)
 			            	: new Drawing.Pixel(0, 0, 0));
 		}
 	}
@@ -214,7 +231,7 @@ Raytracing.ViewPoint.prototype.moveNorth = function (distance) {
 		: distance;
 
 	for (var i = 1; i < delta + 1; i++) {
-		if (this._space.arePixelsOn(this.getXPos(), this.getYPos() + (direction * i))) {
+		if (this._space.isPixelOn(this.getXPos(), this.getYPos() + (direction * i))) {
 			break;
 		}
 
@@ -228,7 +245,7 @@ Raytracing.ViewPoint.prototype.moveSouth = function (distance) {
 		: distance;
 
 	for (var i = 1; i < delta + 1; i++) {
-		if (this._space.arePixelsOn(this.getXPos(), this.getYPos() + (direction * i))) {
+		if (this._space.isPixelOn(this.getXPos(), this.getYPos() + (direction * i))) {
 			break;
 		}
 
@@ -242,7 +259,7 @@ Raytracing.ViewPoint.prototype.moveEast  = function (distance) {
 		: distance;
 
 	for (var i = 1; i < delta + 1; i++) {
-		if (this._space.arePixelsOn(this.getXPos() + (direction * i), this.getYPos())) {
+		if (this._space.isPixelOn(this.getXPos() + (direction * i), this.getYPos())) {
 			break;
 		}
 
@@ -256,7 +273,7 @@ Raytracing.ViewPoint.prototype.moveWest  = function (distance) {
 		: distance;
 
 	for (var i = 1; i < delta + 1; i++) {
-		if (this._space.arePixelsOn(this.getXPos() + (direction * i), this.getYPos())) {
+		if (this._space.isPixelOn(this.getXPos() + (direction * i), this.getYPos())) {
 			break;
 		}
 
@@ -272,7 +289,7 @@ Raytracing.ViewPoint.prototype.moveForwards  = function (distance) {
 	var y = this.getYPos();
 
 	for (var i = 0; i < distance + 1; i++) {
-		if (this._space.arePixelsOn(x, y)) {
+		if (this._space.isPixelOn(x, y)) {
 			return; // path blocked
 		}
 
