@@ -98,12 +98,16 @@ $(window).on("load", function () {
 		);
 	}
 
-	canvas = new Drawing.Canvas("#canvas", 8)
+	canvas = new Drawing.Canvas("#canvas", 5)
 
 	// draw the space border
 	for (var x = 0; x < canvas.space.getWidth(); x++) {
 		for (var y = 0; y < canvas.space.getLength(); y++) {
-			if (y === 0 || y === canvas.space.getLength() - 1 || x === 0 || x == canvas.space.getWidth() - 1) {
+			if (y <= 1                            ||
+			    x <= 1                            ||
+			    y >= canvas.space.getLength() - 2 ||
+			    x >= canvas.space.getWidth() - 2
+			) {
 				canvas.space.drawPoint(x, y, Drawing.Colors.White);
 			}
 	 	}
