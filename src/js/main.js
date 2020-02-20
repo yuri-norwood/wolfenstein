@@ -35,6 +35,8 @@ __     __    _     _   __  __       _          __                    __
                                               \_\         |___/      /_/
 */
 $(window).on("load", function () {
+	var showMap = false;
+
 	var makeFullScreen = function () {
 		$("#outter")
 			.width($(window).width())
@@ -42,6 +44,10 @@ $(window).on("load", function () {
 	};
 
 	var updateCompass = function () {
+		if (!showMap) {
+			return;
+		}
+
 		canvas.beginPath();
 
 		// point in front of viewPoint
@@ -98,23 +104,28 @@ $(window).on("load", function () {
 	for (var x = 0; x < canvas.space.getWidth(); x++) {
 		for (var y = 0; y < canvas.space.getLength(); y++) {
 			if (y === 0 || y === canvas.space.getLength() - 1 || x === 0 || x == canvas.space.getWidth() - 1) {
-				canvas.space.drawPoint(x, y, randomPixel());
+				canvas.space.drawPoint(x, y, new Drawing.Pixel(255, 255, 255));
 			}
 	 	}
 	}
 
 	// draw some rectangles
-	canvas.space.drawRectangle(5, 25, 9, 72, randomPixel());
-	canvas.space.drawRectangle(15, 75, 19, 92, randomPixel());
-	canvas.space.drawRectangle(25, 15, 29, 48, randomPixel());
-	canvas.space.drawRectangle(95, 5, 36, 43, randomPixel());
-	canvas.space.drawRectangle(95, 75, 56, 93, randomPixel());
+	canvas.space.drawRectangle(5, 25, 9, 72, new Drawing.Pixel(255, 255, 255));
+	canvas.space.drawRectangle(15, 75, 19, 92, new Drawing.Pixel(255, 255, 255));
+	canvas.space.drawRectangle(25, 15, 29, 48, new Drawing.Pixel(255, 255, 255));
+	canvas.space.drawRectangle(95, 5, 36, 43, new Drawing.Pixel(255, 255, 255));
+	canvas.space.drawRectangle(95, 75, 56, 93, new Drawing.Pixel(255, 255, 255));
 
 	// draw some circles
-	canvas.space.drawCircle(30, 70, 10, randomPixel());
+	canvas.space.drawCircle(30, 70, 10, new Drawing.Pixel(255, 255, 255));
 
 	setInterval(function () {
-		canvas.drawFrame(canvas.space.render(canvas.getWidth(), canvas.getHeight()));
+		if (showMap) {
+			canvas.drawFrame(new Drawing.Frame(Math.round(canvas.getWidth() / canvas.getScale()), Math.round(canvas.getHeight() / canvas.getScale()), canvas.space.map()));
+		} else {
+			canvas.drawFrame(canvas.space.render(canvas.getWidth(), canvas.getHeight()));
+		}
+
 		updateCompass();
 	}, 1000 / Drawing.Canvas.FramesPerSecond);
 
