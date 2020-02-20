@@ -96,7 +96,7 @@ $(window).on("load", function () {
 		);
 	}
 
-	canvas = new Drawing.Canvas("#canvas", 5)
+	canvas = new Drawing.Canvas("#canvas", 4)
 
 	// draw some rectangles
 	canvas.space.drawRectangle(5, 25, 9, 72, Drawing.Colors.Grey);
@@ -165,13 +165,13 @@ $(window).on("load", function () {
 				canvas.space.viewPoint.moveForwards(5); // running
 				break;
 			case "a":
-				canvas.space.viewPoint.moveLeft(5); // running
+				canvas.space.viewPoint.moveLeft(2.5); // running
 				break;
 			case "s":
 				canvas.space.viewPoint.moveBackwards(5); // running
 				break;
 			case "d":
-				canvas.space.viewPoint.moveRight(5); // running
+				canvas.space.viewPoint.moveRight(2.5); // running
 				break;
 		}
 	});
