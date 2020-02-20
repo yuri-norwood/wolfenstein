@@ -104,20 +104,20 @@ $(window).on("load", function () {
 	for (var x = 0; x < canvas.space.getWidth(); x++) {
 		for (var y = 0; y < canvas.space.getLength(); y++) {
 			if (y === 0 || y === canvas.space.getLength() - 1 || x === 0 || x == canvas.space.getWidth() - 1) {
-				canvas.space.drawPoint(x, y, new Drawing.Pixel(255, 255, 255));
+				canvas.space.drawPoint(x, y, Drawing.Colors.White);
 			}
 	 	}
 	}
 
 	// draw some rectangles
-	canvas.space.drawRectangle(5, 25, 9, 72, new Drawing.Pixel(255, 255, 255));
-	canvas.space.drawRectangle(15, 75, 19, 92, new Drawing.Pixel(255, 255, 255));
-	canvas.space.drawRectangle(25, 15, 29, 48, new Drawing.Pixel(255, 255, 255));
-	canvas.space.drawRectangle(95, 5, 36, 43, new Drawing.Pixel(255, 255, 255));
-	canvas.space.drawRectangle(95, 75, 56, 93, new Drawing.Pixel(255, 255, 255));
+	canvas.space.drawRectangle(5, 25, 9, 72, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(15, 75, 19, 92, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(25, 15, 29, 48, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(95, 5, 36, 43, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(95, 75, 56, 93, Drawing.Colors.Grey);
 
 	// draw some circles
-	canvas.space.drawCircle(30, 70, 10, new Drawing.Pixel(255, 255, 255));
+	canvas.space.drawCircle(30, 70, 10, Drawing.Colors.Green);
 
 	setInterval(function () {
 		if (showMap) {

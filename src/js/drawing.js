@@ -209,3 +209,31 @@ Drawing.Frame.prototype.getPixelAt = function (x, y) {
 		return new Drawing.Pixel();
 	}
 }
+
+
+/*
+ ____                     _               ____      _                  _____
+|  _ \ _ __ __ ___      _(_)_ __   __ _  / ___|___ | | ___  _ __ ___  | ____|_ __  _   _ _ __ ___
+| | | | '__/ _` \ \ /\ / / | '_ \ / _` || |   / _ \| |/ _ \| '__/ __| |  _| | '_ \| | | | '_ ` _ \
+| |_| | | | (_| |\ V  V /| | | | | (_| || |__| (_) | | (_) | |  \__ \ | |___| | | | |_| | | | | | |
+|____/|_|  \__,_| \_/\_/ |_|_| |_|\__, (_)____\___/|_|\___/|_|  |___/ |_____|_| |_|\__,_|_| |_| |_|
+                                  |___/
+*/
+Drawing.Colors = { // 256 xterm colors from https://jonasjacek.github.io/colors
+	Black   : new Drawing.Pixel(   0,   0,   0),
+	Maroon  : new Drawing.Pixel( 128,   0,   0),
+	Green   : new Drawing.Pixel(   0, 128,   0),
+	Olive   : new Drawing.Pixel( 128, 128,   0),
+	Navy    : new Drawing.Pixel(   0,   0, 128),
+	Purple  : new Drawing.Pixel( 128,   0, 128),
+	Teal    : new Drawing.Pixel(   0, 128, 128),
+	Silver  : new Drawing.Pixel( 192, 192, 192),
+	Grey    : new Drawing.Pixel( 128, 128, 128),
+	Red     : new Drawing.Pixel( 255,   0,   0),
+	Lime    : new Drawing.Pixel(   0, 255,   0),
+	Yellow  : new Drawing.Pixel( 255, 255,   0),
+	Blue    : new Drawing.Pixel(   0,   0, 255),
+	Fuchsia : new Drawing.Pixel( 255,   0, 255),
+	Aqua    : new Drawing.Pixel(   0, 255, 255),
+	White   : new Drawing.Pixel( 255, 255, 255),
+}
