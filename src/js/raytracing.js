@@ -55,8 +55,8 @@ Raytracing.Space.prototype.getPixelAt = function (x, y) {
 	       y <  this.getLength()                   &&
 	       0 <= x                                  &&
 	       0 <= y                                  &&
-	       typeof this._grid[x][y] !== "undefined"
-		? this._grid[x][y]
+	       typeof this._grid[Math.round(x)][Math.round(y)] !== "undefined"
+		? this._grid[Math.round(x)][Math.round(y)]
 		: new Drawing.Pixel();
 }
 
@@ -283,8 +283,8 @@ Raytracing.ViewPoint.prototype.moveWest  = function (distance) {
 
 Raytracing.ViewPoint.prototype.moveForwards  = function (distance) {
 	var theta  = Raytracing.Math.degreesToRadians(this.getRotation());
-	var xDelta = Math.round(Math.sin(theta));
-	var yDelta = Math.round(Math.cos(theta));
+	var xDelta = Math.sin(theta);
+	var yDelta = Math.cos(theta);
 	var x = this.getXPos();
 	var y = this.getYPos();
 

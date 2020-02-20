@@ -144,13 +144,13 @@ $(window).on("load", function () {
 				canvas.space.viewPoint.moveForwards(1);
 				break;
 			case "a":
-				canvas.space.viewPoint.turnLeft(45);
+				canvas.space.viewPoint.turnLeft(15);
 				break;
 			case "s":
 				canvas.space.viewPoint.moveBackwards(1);
 				break;
 			case "d":
-				canvas.space.viewPoint.turnRight(45);
+				canvas.space.viewPoint.turnRight(15);
 				break;
 		}
 	});
