@@ -136,6 +136,11 @@ $(window).on("load", function () {
 		updateCompass();
 	}, 1000 / Drawing.Canvas.FramesPerSecond);
 
+	// wire up some mouse controls
+	$("input[name=toggle-map]").on("click", function (event) {
+		$("body").data("show-map", !$("body").data("show-map"));
+	});
+
 	// wire up some keyboard controls
 	$(window).on("keydown", function (event) {
 		var key = event.key.toLowerCase();
