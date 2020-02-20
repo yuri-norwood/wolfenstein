@@ -13,9 +13,19 @@
 	<!-- styles -->
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
-<body data-show-map="true">
+<body data-show-map="false">
 	<div id="outter">
-		<canvas id="canvas" width="1000" height="1000"></canvas>
+		<section id="screen">
+			<canvas id="canvas" width="1000" height="1000"></canvas>
+		</section>
+		<section id="controls">
+			<aside id="description">
+				Press "Toggle Map" to switch between map and first person view
+			</aside>
+			<article>
+				<input type="button" name="toggle-map" text="Toggle Map" value="Toggle Map">
+			</article>
+		</section>
 	</div>
 </body>
 </html>
