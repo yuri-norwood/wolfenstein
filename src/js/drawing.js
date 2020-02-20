@@ -61,14 +61,16 @@ Drawing.Pixel.prototype.toString = function (format) {
 	// and "B" for the hexadecimal values of the corresponding color
 	// values. The toHex() and toCSS() methods are wrappers for 
 
-	return typeof format === "string" && format.length && this.isPixelOn()
+	return typeof format === "string" && format.length
 		? format.replace(/r/, this.getRed())
 		        .replace(/g/, this.getGreen())
 		        .replace(/b/, this.getBlue())
 		        .replace(/R/, ("0" + this.getRed().toString(16)).substr(-2))
 		        .replace(/G/, ("0" + this.getGreen().toString(16)).substr(-2))
 		        .replace(/B/, ("0" + this.getBlue().toString(16)).substr(-2))
-		: "[object Drawing.Pixel]";
+		: this.isPixelOn()
+			? "[object Drawing.Pixel (" + this.toHex() + ")]"
+			: "[object Drawing.Pixel]";
 }
 
 Drawing.Pixel.Average = function (xs) { // static method to average a list of pixels

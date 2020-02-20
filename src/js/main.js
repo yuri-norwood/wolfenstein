@@ -70,43 +70,48 @@ $(window).on("load", function () {
 		canvas._context.lineTo((x + (Math.sin(theta) * canvas.getScale())),
 		                       (y + (Math.cos(theta) * canvas.getScale())));
 
+		canvas.fillStyle("rgb(255, 255, 255)");
 		canvas.fill();
+	}
+
+	var randomPixel = function () {
+		return new Drawing.Pixel(Math.round(Math.random() * 255),
+		                         Math.round(Math.random() * 255),
+		                         Math.round(Math.random() * 255));
 	}
 
 	// make the outer wrapper fullscreen and responsive
 	makeFullScreen();
 	$(window).on("resize", makeFullScreen);
 
-	canvas = new Drawing.Canvas("#canvas", 8)
-
-	var randomSurface = function () {
-		return [
-			new Drawing.Pixel(
-				Math.random() * 255,
-				Math.random() * 255,
-				Math.random() * 255
-			)
-		];
+	window.onerror = function (message, source, lineno, colno, error) {
+		$("#outter").append(
+			"<p class=\"error-message\">" +
+				source + " at line " + lineno + ": " + message +
+			"</p>"
+		);
 	}
+
+	canvas = new Drawing.Canvas("#canvas", 8)
 
 	// draw the space border
 	for (var x = 0; x < canvas.space.getWidth(); x++) {
 		for (var y = 0; y < canvas.space.getLength(); y++) {
 			if (y === 0 || y === canvas.space.getLength() - 1 || x === 0 || x == canvas.space.getWidth() - 1) {
-				canvas.space.drawPoint(x, y, randomSurface());
+				canvas.space.drawPoint(x, y, randomPixel());
 			}
 	 	}
 	}
 
 	// draw some rectangles
-	canvas.space.drawRectangle(5, 25, 9, 72, randomSurface());
-	canvas.space.drawRectangle(15, 75, 19, 92, randomSurface());
-	canvas.space.drawRectangle(25, 15, 29, 48, randomSurface());
-	canvas.space.drawRectangle(95, 5, 36, 43, randomSurface());
-	canvas.space.drawRectangle(95, 75, 56, 93, randomSurface());
+	canvas.space.drawRectangle(5, 25, 9, 72, randomPixel());
+	canvas.space.drawRectangle(15, 75, 19, 92, randomPixel());
+	canvas.space.drawRectangle(25, 15, 29, 48, randomPixel());
+	canvas.space.drawRectangle(95, 5, 36, 43, randomPixel());
+	canvas.space.drawRectangle(95, 75, 56, 93, randomPixel());
 
 	// draw some circles
-	canvas.space.drawCircle(30, 70, 10, randomSurface())
+	canvas.space.drawCircle(30, 70, 10, randomPixel());
 
 	setInterval(function () {
 		canvas.drawFrame(new Drawing.Frame(Math.round(canvas.getWidth() / canvas.getScale()),
