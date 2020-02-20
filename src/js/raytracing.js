@@ -154,8 +154,6 @@ Raytracing.Space.prototype.map = function (width, height) {
 
 Raytracing.Space.prototype.render = function (width, height) {
 	var grid = [];
-	var blurDistance = 50;
-	var perspective = 2;
 
 	// calculate the angle in degrees of each horizontal pixel
 	var anglePerPixel = Raytracing.ViewPoint.FieldOfView / width;
@@ -164,19 +162,23 @@ Raytracing.Space.prototype.render = function (width, height) {
 	for (var x = 0; x < width; x++) {
 		grid.unshift([]);
 
-		var scanline = this.viewPoint.scan(startingAngle + (anglePerPixel * x));
+		var scanline      = this.viewPoint.scan(startingAngle + (anglePerPixel * x));
+		var pixel         = scanline.pixel;
+		var distance      = scanline.distance;
+		var incline       = Raytracing.Math.degreesToIncline(Raytracing.ViewPoint.FieldOfView / 2);
+		var surfaceHeight = incline * distance * 2;
+		var padding       = (height - surfaceHeight) / 2;
 
-		for (var y = 0; y < height * (1 / scanline.distance * perspective); y++) {
-			if (scanline.distance > blurDistance) {
-				grid[0].push(new Drawing.Pixel(0, 0, 0)); // too far away
-			} else {
-				grid[0].push(scanline.pixel);
-			}
+		for (var y = 0; y < padding; y++) {
+			grid[0].push(new Drawing.Pixel(0, 0, 0));
 		}
 
-		// add empty pixels to grid column until column full
-		while (grid[0].length < height) {
-				grid[0].push(new Drawing.Pixel(0, 0, 0));
+		for (var y = y; y < padding + surfaceHeight; y++) {
+			grid[0].push(pixel);
+		}
+
+		for (var y = y; y < height; y++) {
+			grid[0].push(new Drawing.Pixel(0, 0, 0));
 		}
 	}
 
