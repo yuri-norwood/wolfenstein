@@ -118,7 +118,7 @@ Raytracing.Space.prototype.drawRectangle = function (x1, y1, x2, y2, pixel) {
 
 Raytracing.Space.prototype.drawCircle = function (x, y, r, pixel) {
 	var r = Math.abs(r);
-	var tolerance = 0.5;
+	var tolerance = 1;
 
 	for (var i = x - r; i <= x + r; i++) {
 		for (var j = y - r; j <= y + r; j++) {
@@ -395,8 +395,8 @@ Raytracing.ViewPoint.prototype.turnRight = function (angle) {
 	);
 }
 
-Raytracing.ViewPoint.FieldOfView = 90; // how many degrees the view point can see
-Raytracing.ViewPoint.VanishingDistance = 50; // how far away things disappear at
+Raytracing.ViewPoint.FieldOfView = 50; // how many degrees the view point can see
+Raytracing.ViewPoint.VanishingDistance = 200; // how far away things disappear at
 Raytracing.ViewPoint.DefaultRotationDelta = 10; // how many degrees to turn by
 Raytracing.ViewPoint.DefaultMovementDistance = 10; // how far to move by
 
