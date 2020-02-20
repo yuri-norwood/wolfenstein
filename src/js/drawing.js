@@ -73,6 +73,12 @@ Drawing.Pixel.prototype.toString = function (format) {
 			: "[object Drawing.Pixel]";
 }
 
+Drawing.Pixel.CreateShaded = function (pixel, percent) { // static method to create a shaded pixel
+	return new Drawing.Pixel(pixel.getRed()   * (100 + percent) / 100,
+	                         pixel.getGreen() * (100 + percent) / 100,
+	                         pixel.getBlue()  * (100 + percent) / 100);
+}
+
 Drawing.Pixel.Average = function (xs) { // static method to average a list of pixels
 	if (Array.isArray(xs)) {
 		var r = 0, g = 0, b = 0;
