@@ -25,7 +25,21 @@ __     __    _     _   __  __       _          __                    __
                                               \_\         |___/      /_/
 */
 $(window).on("load", function () {
-	var canvas = new Drawing.Canvas("#canvas", 4)
+	window.onerror = function (message, source, lineno, colno, error) {
+		$("#outter").append(
+			"<p class=\"error-message\">" +
+				source + " at line " + lineno + ": " + message +
+			"</p>"
+		);
+	}
+
+	if (typeof(Worker)) {
+		var Wolfenstein = new Worker("js/wolfenstein.js");
+	} else {
+		throw new Error("Web Workers are not supported.");
+	}
+
+	var canvas = new Drawing.Canvas("#canvas", 4);
 
 	var makeFullScreen = function () {
 		$("#outter")
@@ -79,14 +93,6 @@ $(window).on("load", function () {
 	// make the outer wrapper fullscreen and responsive
 	makeFullScreen();
 	$(window).on("resize", makeFullScreen);
-
-	window.onerror = function (message, source, lineno, colno, error) {
-		$("#outter").append(
-			"<p class=\"error-message\">" +
-				source + " at line " + lineno + ": " + message +
-			"</p>"
-		);
-	}
 
 	// draw some rectangles
 	canvas.space.drawRectangle(5, 25, 9, 72, Drawing.Colors.Grey);
