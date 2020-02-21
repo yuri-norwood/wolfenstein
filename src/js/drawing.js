@@ -198,8 +198,8 @@ Drawing.Frame = function (width, height, pixelGrid) {
 		throw new TypeError("Drawing.Frame(" + width + ", " + height + ", " + pixelGrid + "): width is not a valid width");
 	} else if (isNaN(height) || height < 0) {
 		throw new TypeError("Drawing.Frame(" + width + ", " + height + ", " + pixelGrid + "): height is not a valid height");
-	} else if (!pixelGrid || pixelGrid.length !== width || !pixelGrid.every(pixelRow => pixelRow.length === height)) {
-		throw new TypeError("Drawing.Frame(" + width + ", " + height + ", " + pixelGrid + "): pixelGrid doesn't contain pixels matching up to " + width + " by " + height);
+	// } else if (!pixelGrid || pixelGrid.length !== width || !pixelGrid.every(pixelRow => pixelRow.length === height)) {
+	// 	throw new TypeError("Drawing.Frame(" + width + ", " + height + ", " + pixelGrid + "): pixelGrid doesn't contain pixels matching up to " + width + " by " + height);
 	}
 
 	// construct
