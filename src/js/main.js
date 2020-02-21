@@ -119,7 +119,7 @@ $(window).on("load", function () {
 			) {
 				canvas.space.drawPoint(x, y, Drawing.Colors.White);
 			}
-	 	}
+		}
 	}
 
 	setInterval(function () {
