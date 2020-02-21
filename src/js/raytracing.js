@@ -166,12 +166,12 @@ Raytracing.Space.prototype.render = function (width, height) {
 		// calculate scaling due to distance
 		var viewAngle     = Raytracing.ViewPoint.FieldOfView / 2;
 		var viewTheta     = Raytracing.Math.degreesToRadians(viewAngle);
-		var opposite      = Math.tan(viewTheta) * (Raytracing.ViewPoint.VanishingDistance - distance);
+		var opposite      = Math.tan(viewTheta) * (((this.getWidth() + this.getLength()) / 2) - distance);
 		var surfaceHeight = 2 * opposite;
 		var padding       = (height - surfaceHeight) / 2;
 
 		// scale the colors based on distance
-		pixel = Drawing.Pixel.CreateShaded(pixel, -(distance / Raytracing.ViewPoint.VanishingDistance * 100));
+		pixel = Drawing.Pixel.CreateShaded(pixel, -(distance / ((this.getWidth() + this.getLength()) / 2) * 100));
 
 		for (var y = 0; y < padding; y++) {
 			grid[0].push(new Drawing.Pixel(0, 0, 0));
@@ -395,7 +395,6 @@ Raytracing.ViewPoint.prototype.turnRight = function (angle) {
 }
 
 Raytracing.ViewPoint.FieldOfView = 50; // how many degrees the view point can see
-Raytracing.ViewPoint.VanishingDistance = 200; // how far away things disappear at
 Raytracing.ViewPoint.DefaultRotationDelta = 10; // how many degrees to turn by
 Raytracing.ViewPoint.DefaultMovementDistance = 10; // how far to move by
 
