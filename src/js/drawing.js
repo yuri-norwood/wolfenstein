@@ -172,13 +172,13 @@ Drawing.Canvas.prototype.drawFrame = function (frame) {
 }
 
 Drawing.Canvas.prototype.map = function () {
-	return this.space.map(Math.round(canvas.getWidth()  / canvas.getScale()),
-	                      Math.round(canvas.getHeight() / canvas.getScale()));
+	return this.space.map(Math.round(this.getWidth()  / this.getScale()),
+	                      Math.round(this.getHeight() / this.getScale()));
 }
 
 Drawing.Canvas.prototype.render = function () {
-	return this.space.render(Math.round(canvas.getWidth()  / canvas.getScale()),
-	                         Math.round(canvas.getHeight() / canvas.getScale()));
+	return this.space.render(Math.round(this.getWidth()  / this.getScale()),
+	                         Math.round(this.getHeight() / this.getScale()));
 }
 
 Drawing.Canvas.FramesPerSecond = 60;
