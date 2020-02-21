@@ -39,7 +39,7 @@ $(window).on("load", function () {
 		throw new Error("Web Workers are not supported.");
 	}
 
-	var canvas = new Drawing.Canvas("#canvas", 4);
+	var canvas = new Drawing.Canvas("#canvas", 10);
 
 	var makeFullScreen = function () {
 		$("#outter")
