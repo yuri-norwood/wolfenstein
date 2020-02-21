@@ -39,7 +39,7 @@ $(window).on("load", function () {
 		throw new Error("Web Workers are not supported.");
 	}
 
-	var canvas = new Drawing.Canvas("#canvas", 10);
+	var canvas = new Drawing.Canvas("#canvas", 15);
 
 	var makeFullScreen = function () {
 		$("#outter")
@@ -98,8 +98,11 @@ $(window).on("load", function () {
 	canvas.space.drawRectangle(5, 25, 9, 72, Drawing.Colors.Grey);
 	canvas.space.drawRectangle(15, 75, 19, 92, Drawing.Colors.Grey);
 	canvas.space.drawRectangle(25, 15, 29, 48, Drawing.Colors.Grey);
-	canvas.space.drawRectangle(95, 5, 36, 43, Drawing.Colors.Grey);
 	canvas.space.drawRectangle(95, 75, 56, 93, Drawing.Colors.Grey);
+
+	// draw a room
+	canvas.space.drawRectangle(95, 5, 36, 43, Drawing.Colors.Grey);
+	canvas.space.drawRectangle(80, 42, 60, 43, new Drawing.Pixel());
 
 	// draw a room with a hidden door
 	canvas.space.drawRectangle(100, 150, 600, 700, Drawing.Colors.Blue);
