@@ -1,16 +1,6 @@
 "use strict";
 
 /*
-  ____ _       _           _
- / ___| | ___ | |__   __ _| |___
-| |  _| |/ _ \| '_ \ / _` | / __|
-| |_| | | (_) | |_) | (_| | \__ \
- \____|_|\___/|_.__/ \__,_|_|___/
-
-*/
-var canvas;
-
-/*
  ___       _ _   _       _ _          _   _
 |_ _|_ __ (_) |_(_) __ _| (_)______ _| |_(_) ___  _ __
  | || '_ \| | __| |/ _` | | |_  / _` | __| |/ _ \| '_ \
@@ -35,6 +25,8 @@ __     __    _     _   __  __       _          __                    __
                                               \_\         |___/      /_/
 */
 $(window).on("load", function () {
+	var canvas = new Drawing.Canvas("#canvas", 4)
+
 	var makeFullScreen = function () {
 		$("#outter")
 			.width($(window).width())
@@ -95,8 +87,6 @@ $(window).on("load", function () {
 			"</p>"
 		);
 	}
-
-	canvas = new Drawing.Canvas("#canvas", 4)
 
 	// draw some rectangles
 	canvas.space.drawRectangle(5, 25, 9, 72, Drawing.Colors.Grey);
