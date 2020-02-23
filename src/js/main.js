@@ -33,13 +33,13 @@ $(window).on("load", function () {
 		);
 	}
 
-	if (typeof(Worker)) {
-		var Wolfenstein = new Worker("js/wolfenstein.js");
-	} else {
-		throw new Error("Web Workers are not supported.");
-	}
+	// if (typeof(Worker)) {
+	// 	var Wolfenstein = new Worker("js/wolfenstein.js");
+	// } else {
+	// 	throw new Error("Web Workers are not supported.");
+	// }
 
-	var canvas = new Drawing.Canvas("#canvas", 15);
+	var canvas = new Drawing.Canvas("#canvas", 8);
 
 	var makeFullScreen = function () {
 		$("#outter")
