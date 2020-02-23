@@ -1,0 +1,341 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"font",
+				"font-family\tproperty"
+			],
+			[
+				"res",
+				"results"
+			],
+			[
+				"webw",
+				"webworker"
+			],
+			[
+				"Wor",
+				"worker"
+			],
+			[
+				"bu",
+				"bucket"
+			],
+			[
+				"out",
+				"outputText"
+			],
+			[
+				"f",
+				"focus"
+			],
+			[
+				"A",
+				"author"
+			],
+			[
+				"scal",
+				"scaleDiv"
+			],
+			[
+				"sc",
+				"scaleX"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"h",
+				"html\thtml"
+			],
+			[
+				"mov",
+				"movingRight"
+			],
+			[
+				"ge",
+				"get_frame"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"p",
+				"pixMap"
+			],
+			[
+				"dr",
+				"draw_frame"
+			],
+			[
+				"for",
+				"for\tfor (…) {…}"
+			],
+			[
+				"head",
+				"header\tTag"
+			],
+			[
+				"hae",
+				"header\tTag"
+			],
+			[
+				"hea",
+				"header\tTag"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/yanda/source/repos/wolfenstein",
+		"/C/Users/yanda/source/repos/wolfenstein/src",
+		"/C/Users/yanda/source/repos/wolfenstein/src/js"
+	],
+	"file_history":
+	[
+		"/C/Users/yanda/source/repos/wolfenstein/src/js/main.js",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/4.3/index.html",
+		"/C/Users/yanda/source/repos/wolfenstein/src/index.html",
+		"/C/Users/yanda/Downloads/golly-3.3-win-32bit/golly-3.3-win-32bit/Scripts/Python/goto.py",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/4.2/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/4.1/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/3.4/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/3.3/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/3.2/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/3.1/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/2.5/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/2.5/webworker.js",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/2.4/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/2.3/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/2.2/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/2.1/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.6/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.5/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.2/game.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.4/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.4/webApp.appcache",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.3/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.2/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.1/index.html",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.1/README.md",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.2/README.md",
+		"/C/Users/yanda/source/repos/70-480/src/objectives/1.1/refactor_exercise.html",
+		"/C/Users/yanda/source/repos/70-480/.gitignore",
+		"/C/Users/yanda/Desktop/OpenBSD_PBR_Installation_record.txt"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			":</td>",
+			"<td>\n\t\t",
+			":\n\t\t</td>",
+			":\n\t\t\t</td>",
+			" \n",
+			"buckets[i].classList",
+			"bucket",
+			"b1",
+			"50%",
+			"=",
+			",",
+			"this.",
+			":",
+			": ",
+			"this;",
+			"this",
+			": \", ",
+			"\" : ",
+			"alert",
+			"insideDiv3",
+			"globalvar",
+			"localStorage",
+			"document.getElementById(\"storageTable\")",
+			"replaceNode",
+			"dist",
+			"canvas",
+			"0",
+			"ctxt",
+			"drawingSurface",
+			"ctxt",
+			"■ ",
+			"7500",
+			"1000",
+			"500",
+			"drawingSurface",
+			"pixMap",
+			"{ r : 0, b : 0, g : 0 }",
+			"},\n",
+			"\\\n",
+			"x : 0, y : 0, ",
+			"a",
+			"ctxt.lineTo(0,",
+			"</td>",
+			">\n",
+			"tr",
+			"■ ",
+			" device boot",
+			" path \\OpenBSD.b.pbr",
+			"} device boot",
+			"GUID"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 60.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 127.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "wolfenstein.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 255.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
