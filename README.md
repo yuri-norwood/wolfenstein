@@ -1,4 +1,4 @@
-# A Wolfenstein 3D Clone
+# A Wolfenstein 3D Clone - [ARCHIVED](LICENSE)
 ## Mainly as a exercise in ray tracing
 
 ![Screenshot 1](img/Screenshot_01.png)
